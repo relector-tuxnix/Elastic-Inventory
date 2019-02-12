@@ -1,0 +1,12 @@
+{
+	"site-name"			: "Elastic Inventory",
+	"site-title"		: "Elastic Inventory",
+	"site-banner"		: "Elastic Inventory.",
+	"site-footer"		: "&copy; 2019 Elastic Inventory",
+	"ok-button"			: "Ok",
+	"cancel-button"		: "Cancel",
+	"send-button"		: "Send",
+	"login-button"		: "Login",
+	"register-button"	: "Register",
+	"search-button"		: "Search"
+}

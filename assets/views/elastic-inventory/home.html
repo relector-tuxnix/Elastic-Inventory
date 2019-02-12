@@ -1,0 +1,36 @@
+<main container>
+
+	<div class="home-section" grid="center">
+		<div column="12">
+			<h1>{{locale "site-banner"}}</h1>
+		</div>
+	</div>
+	
+	<div grid="center">
+		<div column="10 +1" id="section">
+		
+			<script type="text/javascript">
+				{{{homejs}}}
+			</script>
+
+			<div id="default-portfolio-item" class="portfolio-item">&nbsp;</div>
+
+			<div id="empty-quote-portfolio-item" class="empty-portfolio-item portfolio-item"><h4>No quotes found!</h4></div>
+
+			<div id="empty-post-portfolio-item" class="empty-portfolio-item portfolio-item"><h4>No posts found!</h4></div>
+		</div>
+	</div>
+
+	<div grid>
+		<div id="loading-item" class="_text-center portfolio-item-button portfolio-item" column="10 +1">
+			<p>LOADING...</p>
+		</div>
+	</div>
+
+	<div grid>
+		<div id="more-item" class="_text-center portfolio-item-button portfolio-item" column="10 +1">
+			<p>VIEW MORE</p>
+		</div>
+	</div>
+
+</main>

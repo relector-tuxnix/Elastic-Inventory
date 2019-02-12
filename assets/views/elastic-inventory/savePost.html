@@ -1,0 +1,132 @@
+<script type="text/javascript">
+	{{{savePostjs}}}
+</script>
+
+<main container>
+
+	<div id="import-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+
+				<ul id="import-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+		
+				<div id="upload-drop" class="upload-area">
+					Drop files here to upload or <a class="upload-browse">select from your computer</a>
+				</div>
+
+				<div id="upload-list" class="upload-area">&nbsp;</div>
+
+				<input name="upload" type="file" id="upload"/>
+
+				<button class="-error close-window">{{locale "cancel-button"}}</button>
+				<button class="-success" id="import-submit-button">IMPORT</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="export-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+
+				<select id="export-category" name="export-category">
+					<option value="quote" selected="selected">QUOTE</option>
+					<option value="summary">SUMMARY</option>
+					<option value="article">ARTICLE</option>
+					<option value="other">OTHER</option>
+					<option value="all">ALL</option>
+				</select>
+
+				<select id="default-export-select" name="export-select">
+					<option id="default-export-select-item" value="#">&nbsp;</option>
+				</select>
+
+				<button class="-error close-window">{{locale "cancel-button"}}</button>
+				<button class="-success" id="export-submit-button">EXPORT</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="load-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+
+				<select id="load-category" name="load-category">
+					<option value="quote" selected="selected">QUOTE</option>
+					<option value="summary">SUMMARY</option>
+					<option value="article">ARTICLE</option>
+					<option value="other">OTHER</option>
+				</select>
+
+				<select id="default-load-select" name="load-select">
+					<option id="default-load-select-item" value="#">&nbsp;</option>
+				</select>
+
+				<button class="-error close-window">{{locale "cancel-button"}}</button>
+				<button class="-success" id="load-submit-button">LOAD</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="delete-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+				<ul id="delete-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+				<button id="delete-close-button" class="-error close-window">Close</button>
+				<button id="delete-cancel-button" class="-error close-window">{{locale "cancel-button"}}</button>
+				<button id="delete-submit-button" class="-success">Delete</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="save-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+				<ul id="save-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+				<button id="save-close-button" class="-error close-window">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="preview-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+				<ul id="preview-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+				<button id="preview-close-button" class="-error close-window">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<div grid>
+		<div column="6 +3" class="_text-center">
+
+			<ul id="tags">
+				<li id="new-tag">
+					<div class="new-tag-text tag" unselectable="true" contentEditable="true">Add new tag...</div>
+					<i class="new-tag-button fa fa-plus-square"></i>
+				</li>
+				<li id="default-tag-item">
+					<div class="tag-text tag">&nbsp;</div>
+					<i class="remove-tag-button fa fa-minus-square"></i>
+				</li>
+			</ul>	
+
+
+			<input type="text" id="uri" name="uri" placeholder="URI" value="" />
+		</div>
+	</div>
+
+</main>
+
+<main id="editor-container" container>
+
+	<div grid>
+		<div column="6" class="content-panel">
+			<textarea id="content" name="content" class="panel portfolio-item"></textarea>
+		</div>
+
+		<div column="6" class="preview-panel">
+			<div id="preview" class="panel portfolio-item"></div>
+		</div>
+	</div>
+
+</main>

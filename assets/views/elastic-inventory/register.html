@@ -1,0 +1,33 @@
+<style type="text/css">
+
+	.default-item {
+		display: none;
+	}
+
+</style>
+
+<ul id="error-message">
+	<li class="default-item">&nbsp;</li>
+</ul>
+
+<div id="register-message">
+	<p>{{message}}</p>
+</div>
+
+<form method="post" action="{{pages.postRegister.uri}}" class="form-signin">
+
+	<h1 class="h3 mb-3 font-weight-normal">{{{locale "site-title"}}}</h1>
+
+	<label for="email" class="sr-only">Email</label>
+	<input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
+	<label for="password" class="sr-only">Password</label>
+	<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+	<label for="confirm" class="sr-only">Password Confirm</label>
+	<input type="password" id="confirm" name="confirm" class="form-control" placeholder="Confirm Password" required>
+
+	<button class="btn btn-lg btn-primary btn-block" type="submit">{{{locale "register-button"}}}</button>
+
+	<p class="mt-5 mb-3 text-muted">{{{locale "site-footer"}}}</p>
+
+</form>
+
