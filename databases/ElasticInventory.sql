@@ -20,3 +20,19 @@ CREATE TABLE IF NOT EXISTS User (
 CREATE INDEX User_ix_email ON User (email);
 
 
+CREATE TABLE IF NOT EXISTS Inventory (
+		id                   TEXT PRIMARY KEY,
+		type	             TEXT,
+		data		         TEXT,
+		user				 TEXT, 	
+		creationDate		 TEXT,
+		-- Constraints
+		CONSTRAINT User_ck_id UNIQUE (id)
+) WITHOUT ROWID;
+
+CREATE INDEX Inventory_ix_type ON Inventory (type);
+
+
+
+
+
