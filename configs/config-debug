@@ -24,7 +24,7 @@ static_accepts_custom       : .tar, .gz, .exe, .jpeg, .jpg, .gif, .png, .scss, .
 default_layout              : default
 default_request_length     	: 5120 
 default-language			: en-US
-default-item-limit			: 50
+default-item-limit			: 2000
 default_theme				: elastic-inventory
 max-file-size				: 104857600
 default_database			: ElasticInventory.sqlite

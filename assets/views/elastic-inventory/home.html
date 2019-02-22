@@ -1,36 +1,76 @@
+<style type="text/css">
+
+body {
+    margin: 0;
+    font-size: 0.95rem;
+    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #fff;
+    background: #1e1e1e;
+}
+
+html {
+    min-height: 100%;
+}
+
+#test-table {
+	margin: 20px;
+}
+
+</style>
+
 <main container>
 
-	<div class="home-section" grid="center">
-		<div column="12">
-			<h1>{{locale "site-banner"}}</h1>
-		</div>
-	</div>
-	
-	<div grid="center">
-		<div column="10 +1" id="section">
-		
-			<script type="text/javascript">
-				{{{homejs}}}
-			</script>
+	<div id="test-table" class="dynamic-table">
 
-			<div id="default-portfolio-item" class="portfolio-item">&nbsp;</div>
+		<div id="edit-button" class="btn btn-success support-input">Edit</div>
+		<div id="add-button" class="btn btn-success support-input">Add</div>
 
-			<div id="empty-quote-portfolio-item" class="empty-portfolio-item portfolio-item"><h4>No quotes found!</h4></div>
+		<script type="text/javascript">
 
-			<div id="empty-post-portfolio-item" class="empty-portfolio-item portfolio-item"><h4>No posts found!</h4></div>
-		</div>
-	</div>
+			$(document).ready(function() {
 
-	<div grid>
-		<div id="loading-item" class="_text-center portfolio-item-button portfolio-item" column="10 +1">
-			<p>LOADING...</p>
-		</div>
-	</div>
+				$.ajax({ 
+					type: "POST", 
+					url: "{{pages.apiGetMany.uri}}", 
+					data: {
+						"table" : 'Inventory',
+						"columns" : ['data'],
+						"where" : ["1=1", "[type] = 'gemstones'"],
+						"range" : "",
+						"order" : "",
+						"limit" : 1000
+					} 
+				}).done(function(result) { 
 
-	<div grid>
-		<div id="more-item" class="_text-center portfolio-item-button portfolio-item" column="10 +1">
-			<p>VIEW MORE</p>
-		</div>
+					var records = [];
+
+					for(var i = 0, len = result.message.length; i < len; i++) {
+						records.push(JSON.parse(result.message[i].data));
+					}
+
+					var $dt = $('#test-table').dynamictable({
+						sorts: {"No." : 1},
+						perPageDefault: 5,
+						records: records,
+						columnsIgnore: ["images"],
+						exportsIgnore: ["images"],
+						select: true,
+						cells: {
+							"Item": `
+								$td.find("a").text(record[key]);
+								$td.find("a").attr("href", "/View?id=" + record["No."]);
+							`
+						}
+					}).data('dynamictable');	
+
+					console.log($dt);
+
+				}).fail(errorHandler);
+
+			});
+
+		</script>
+
 	</div>
 
 </main>

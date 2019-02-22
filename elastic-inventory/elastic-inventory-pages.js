@@ -12,29 +12,6 @@ $.apiSearch = {
 	label: 'Search.'
 };
 
-$.apiGetMany = {
-	uri: '/api/get-many',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
-	priority: 1,
-	label: 'API Get Many.'
-};
-
-$.apiGetMyPosts = {
-	uri: '/api/get-my-posts',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post', 'authorize'],
-	priority: 1,
-	label: 'API Get My Posts.'
-};
-
-$.apiGetPost = {
-	uri: '/api/get-post',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
-	label: 'API Get Post.'
-};
-
 $.apiGetPostsByTag = {
 	uri: '/api/get-posts-by-tag',
 	controller: 'elastic-inventory/api.js',
@@ -142,7 +119,6 @@ $.home = {
 		{'body' : 'elastic-inventory/home.html'}, 
 		{'defaultjs' : 'elastic-inventory/default.js'}, 
 		{'default' : 'elastic-inventory/default.html'}
-
 	],
 	above: [],
 	below: []
