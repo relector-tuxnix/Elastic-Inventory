@@ -6,6 +6,26 @@ var crypto = require('crypto');
 var fs = require('fs');
 
 
+$.apiGetTypes = function() {
+
+	var self = this;
+
+	var query = 'SELECT DISTINCT type FROM Inventory';  
+
+	common.ECQuery(query, [], function(result) {
+
+		if(result.success == false) {
+	
+			self.view500(result.message);
+
+		} else {
+
+			self.json(result);
+		}
+	});
+};
+
+
 $.apiSavePost = function() {
 
 	var self = this;
@@ -15,14 +35,14 @@ $.apiSavePost = function() {
 		'_type' : 'post', 
 		'_uri' : self.body.uri, 
 		'_content' : self.body.content, 
-		'_user' : self.user._id, 
+		'_user' : self.user.id, 
 		'_tags' : self.body["tags[]"]
 	};
 
-	//Have to remove the dummy element because of https://github.com/nodejs/node/issues/11145
+	/* Have to remove the dummy element because of https://github.com/nodejs/node/issues/11145 */
 	data._tags.splice(0, 2);
 
-	common.EBSavePost(data, function(result) {
+	common.EISavePost(data, function(result) {
 	
 		if(result.success == false) {
 	
@@ -41,7 +61,7 @@ $.apiDeletePost = function() {
 	var self = this;
 
 	var uri = self.body.uri;
-	var user = self.user._id;
+	var user = self.user.id;
 
 	var query = [`_type = "post"`, `_uri = "${uri}"`, `_user = "${user}"`];
 
@@ -112,7 +132,7 @@ $.apiGetMyPosts = function() {
 	var category = self.body.category;
 	var order = self.body["order[]"];
 	var limit = self.body.limit;
-	var user = self.user._id;
+	var user = self.user.id;
 	var query;
 
 	if(category == "other") {
@@ -158,7 +178,7 @@ $.apiGetPost = function() {
 			 * If you own the post then you can view it. 
 			 * If you do not own it then it has to be live to view. 
 			 */
-			if((self.user == null || self.user._id != post._user) && post.live == 'false') {
+			if((self.user == null || self.user.id != post._user) && post.live == 'false') {
 			
 				self.view401("You do not have access to view this post.");		
 
@@ -198,7 +218,7 @@ $.apiGetComments = function() {
 			 * If you own the post then you can view it. 
 			 * If you do not own it then it has to be live to view. 
 			 */
-			if((self.user == null || self.user._id != post._user) && post.live == 'false') {
+			if((self.user == null || self.user.id != post._user) && post.live == 'false') {
 			
 				self.view401("You do not have access to view this post.");		
 
@@ -546,7 +566,7 @@ $.apiImportPost = function() {
 		return;
 	}
 
-	var user = self.user._id;
+	var user = self.user.id;
 	var file = self.files.pop();
 
 	fs.readFile(file.path, 'utf8', function(err, contents) {
@@ -574,7 +594,7 @@ $.apiImportPost = function() {
 					/* Force the type to POST */
 					post._type = "post";
 
-					common.EBSavePost(post, function(result) {
+					common.EISavePost(post, function(result) {
 					
 						//console.log(result);
 
@@ -601,4 +621,64 @@ $.apiImportPost = function() {
 			self.view500("Failed to parse file contents!");
 		}
 	});	
+};
+
+
+$.apiGetFile = function() {
+
+	var self = this;
+
+	var user = self.user.id;
+	var key = self.body.key;
+
+	common.CBGetFile(user, key, function(result) {
+
+		self.json(result);
+	});
+};
+
+
+$.apiReturnFile = function(type, key) {
+
+	var self = this;
+
+	var user = self.user.id;
+
+	console.log("HERE");
+
+	/* Check user has that file in db and if they do return it with the mime type set...otherwise return 404 */
+//	common.EIGetFile(user, key, function(result) {
+
+//		if(result.success == false) {
+
+//			self.view404();
+
+//		} else {
+
+			//var file = result.message[0];
+
+			/* Set the download name to the orignal filename rather then the file key */
+			var headers = [];
+			headers['Content-Type'] = "image/jpg";
+			headers['Access-Control-Allow-Origin'] = '*';
+
+			var filename = F.config[`files-${type}-dir`] + key;
+
+			var fullPath = F.path.root(filename);
+
+			console.log(fullPath);
+
+			fs.access(fullPath, fs.constants.R_OK, (err) => {
+
+				if(err) {
+	
+					self.view404();
+
+				} else {
+
+					self.file(`~${fullPath}`, key, headers);
+				}
+			});
+//		}
+//	});
 };

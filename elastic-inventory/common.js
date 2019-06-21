@@ -3,6 +3,12 @@ var cuid = require('cuid');
 
 var $ = module.exports = require('../elastic-core/common.js');
 
+var fileStoreLocation = F.config['files-dir'];
+var tmpStoreLocation = F.config['files-tmp-dir'];
+var originalLocation = F.config['files-original-dir'];
+var mediumThumbLocation = F.config['files-medium-thumb-dir'];
+var smallThumbLocation = F.config['files-small-thumb-dir'];
+
 
 F.once('load', function() {
 
@@ -20,7 +26,7 @@ F.once('load', function() {
 });
 
 
-$.EBSavePost = function(data, callback) {
+$.EISavePost = function(data, callback) {
 
 	var constraints = {
 		"_key": {
@@ -116,3 +122,52 @@ $.EBSavePost = function(data, callback) {
 	});
 };
 
+
+$.EIGetFile = function(user, key, callback) {
+
+	var query = [`_type = "file"`, `_key = "${key}"`];
+
+	if(user == null || user == "") {
+
+		query.push(`_public = "true"`);
+
+	} else {
+
+		query.push(`_user = "${user}"`);
+	}
+
+	//$.ECGet(query, 1, [], [], [], function(result) {
+
+	//	callback(result);
+	//});
+};
+
+
+$.EIStoreFile = function(user, totalSize, mime, filename, tags, allowPublic, callback) {
+	
+	var generateFile = function() {
+			
+		var body = {};
+		
+		body._key = cuid();
+		body._type = "file";
+		body._name = filename;
+		body._user = user;
+		body._public = allowPublic;
+		body._active = "false";
+		body._mime = mime;
+		body._size = totalSize;
+		body._success = 'Pending';
+		body._message = 'Waiting to start upload...';
+		body._tags = tags;
+		body._meta = {width: 0, height: 0};
+		body._created = new Date();
+		
+		$.ECStore(body._key, body, function(response) {
+		
+			console.log(response);
+		
+			callback(body);
+		});
+	};
+}

@@ -1,8 +1,16 @@
 var $ = exports;
 
 /*
- * PAGES
+ * ELASTIC INVENTORY PAGES
  */
+
+$.apiGetTypes = {
+	uri: '/api/get-types',
+	controller: 'elastic-inventory/api.js',
+	flags: ['get'],
+	priority: 1,
+	label: 'Get Types.'
+}
 
 $.apiSearch = {
 	uri: '/api/search',
@@ -91,7 +99,7 @@ $.apiGetById = {
 $.apiDeleteById = {
 	active: false,
 	priority: 1
-}
+};
 
 $.error = {
 	uri: '/error',
@@ -115,6 +123,7 @@ $.home = {
 	priority: 1,
 	label: 'Home',
 	views: [
+		{'navigation' : 'elastic-inventory/navigation.html'}, 
 		{'homejs' : 'elastic-inventory/home.js'}, 
 		{'body' : 'elastic-inventory/home.html'}, 
 		{'defaultjs' : 'elastic-inventory/default.js'}, 
@@ -241,10 +250,42 @@ $.postLogin = {
 $.getRegister = {
 	uri: '/register',
 	controller: 'elastic-core/register.js',
-	flags: [],
+	flags: ['unauthorize'],
 	label: 'Register',
 	views: [
 		{'body' : 'elastic-inventory/register.html'},
+		{'default' : 'elastic-inventory/default.html'}
+	],
+	above: [],
+	below: []
+};
+
+$.apiGetFile = {
+	uri: '/api/get-file',
+	controller: 'elastic-inventory/api.js',
+	flags: ['post', 'authorize'],
+	label: 'Get File'
+};
+
+$.apiReturnFile = {
+	uri: '/file/{type}/{key}',
+	controller: 'elastic-inventory/api.js',
+	base: '/file',
+	smallThumb: '/file/small-thumb/',
+	mediumThumb: '/file/medium-thumb/',
+	original: '/file/original/',
+	flags: ['get', 'authorize'],
+	label: 'Return File',
+};
+
+$.viewInventory = {
+	uri: '/view/{type}',
+	base: '/view',
+	controller: 'elastic-inventory/view.js',
+	flags: ['get', 'authorize'],
+	label: 'View Inventory',
+	views: [
+		{'body' : 'elastic-inventory/view.html'},
 		{'default' : 'elastic-inventory/default.html'}
 	],
 	above: [],

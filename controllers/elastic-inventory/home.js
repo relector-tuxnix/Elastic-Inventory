@@ -7,17 +7,17 @@ $.home = function() {
 
 	var self = this;
 
-//	if(self.user == null) {
+	if(self.user == null) {
 
-//		self.redirect(common.pages.getLogin.uri);
+		self.redirect(common.pages.getLogin.uri);
 
-//	} else { 
+	} else { 
 
 		common.model = {};
 
 		var page = common.make(self, common.pages.home);
 
 		self.html(page);
-//	}
+	}
 };
 

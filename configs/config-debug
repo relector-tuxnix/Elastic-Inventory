@@ -28,3 +28,8 @@ default-item-limit			: 2000
 default_theme				: elastic-inventory
 max-file-size				: 104857600
 default_database			: ElasticInventory.sqlite
+files-dir 					: /files/
+files-tmp-dir 				: /files/tmp/
+files-original-dir 			: /files/original/
+files-small-thumb-dir 		: /files/small-thumb/
+files-medium-thumb-dir 		: /files/medium-thumb/
