@@ -71,6 +71,7 @@
 				    <li id="context-menu-copy-cell">Copy Cell</li>
 				    <li id="context-menu-copy-row">Copy Row</li>
 				    <li id="context-menu-copy-column">Copy Column</li>
+                    <li id="context-menu-expand-column">Expand Column</li>
 			    </ul>
 
 				<select id="dynamictable-per-page" class="dynamictable-per-page-select form-control">&nbsp;</select>
@@ -163,6 +164,7 @@
 		sortsKeys: [],
 		sortTypes: {},
 		records: [],
+        renderedRecords: [],                        /* What do the cells actually look like after being rendered */
 
         shiftState: false,
         ctrlState: false,
@@ -317,8 +319,16 @@
                 obj.settings.ctrlState = event.ctrlKey;
             });
 
+            obj.$elementTable.on('click', 'tbody td a', function(event) {
+
+                /* Do not want to interfere with column expanding */
+                if(obj.settings.ctrlState == true) {
+                    event.preventDefault();
+                }
+            });
+
     		/* Enable cell expanding for better space utilisation */
-			obj.$elementTable.on('click', 'tbody td', function() {
+			obj.$elementTable.on('click', 'tbody td', function(event) {
 
 				var $td = $(this);
 				var $row = $td.parent();
@@ -340,7 +350,7 @@
 		
 				    if(isNullOrWhiteSpace(colObj) == false && settings.disableExpand.indexOf(colObj.label) > -1) {
 					    return;
-				    } 
+				    }
 
                     /* Deselect any selected text to prevent shift-select */
                     document.getSelection().removeAllRanges();
@@ -411,7 +421,7 @@
 					var custom = findObjectInArray(settings.cells, {column: 'select-box'});
 
 					if(custom) {
-						custom.render(settings, record, $tr);
+						custom.render(settings, null, record, $tr);
 					}
 				}
 
@@ -423,28 +433,15 @@
 				    var column = settings.columns[j];
                     var key = column.id;
 
-					$td = $tr.find('#tb-default').clone().removeAttr('id');
-		
-                    /* If we have a wild card cell renderer then look for a specific renderer for the given column */
-                    var custom = findObjectInArray(settings.cells, {column: key});
-
-                    /* Otherwise, do we have a custom cell renderer for all cells '*' */
-                    if(isNull(custom)) {
-					    custom = findObjectInArray(settings.cells, {column: '*'});
-                    }
-
-					if(custom) {
-						custom.render(settings, column, record, $td);
-					} else {
-						$td.text(record[key]);
-					}
+                    /* Use our pre-rendered TD */
+					$td = $tr.find('#tb-default').replaceWith(record[`${key}-td`]);
 
 					/* Do we have a column that is disabled expand specified */
 					if(settings.disableExpand.indexOf(key) > -1) {
 						$td.addClass("td-select off");
-					} 
+					}
 	
-					/* keep cells for hidden column headers hidden */
+					/* Keep cells for hidden column headers hidden */
 					if(column.hidden) {
 						$td.hide();
 					}
@@ -460,11 +457,11 @@
 				obj.$elementTable.find('tbody').append($tr);
             }
 
-            /* 
-                We do set full then updates, as sometimes we want to hide elements on update.
-                Callback is only called once, so we only want to do a full update once.
-                Otherwise we may get hidden elements popping from subsequent updates that were hidden in the callback.
-            */
+            /*
+             * We do set full then updates, as sometimes we want to hide elements on update.
+             * Callback is only called once, so we only want to do a full update once.
+             * Otherwise we may get hidden elements popping from subsequent updates that were hidden in the callback.
+             */
             obj.setFull();
 
             obj.paginationPerPage.update();
@@ -622,18 +619,52 @@
 
 			for(var i = 0, len = settings.records.length; i < len; i++) {
 
+                var record = settings.records[i];
+
                 /* Used to determine original sort order */
-			    settings.records[i]['dynamictable-original-index'] = i;
+			    record['dynamictable-original-index'] = i;
 
                 /* We always need a unique ID per row! */
-				settings.records[i]['dynamictable-index'] = i;
+				record['dynamictable-index'] = i;
+
+                /* Grab the record's attribute for each column */
+				for(var j = 0, len2 = settings.columns.length; j < len2; j++) {
+
+                    var column = settings.columns[j];
+                    var key = column.id;
+
+                    /* If we have a wild card cell renderer then look for a specific renderer for the given column */
+                    var custom = findObjectInArray(settings.cells, {column: key});
+
+                    /* Otherwise, do we have a custom cell renderer for all cells '*' */
+                    if(isNull(custom)) {
+				        custom = findObjectInArray(settings.cells, {column: '*'});
+                    }
+
+                    /* Temporary TD to render into */
+                    var $td = obj.$defaultElement.find('#tb-default').clone().removeAttr('id');
+
+			        if(custom) {
+				        custom.render(settings, column, record, $td);
+			        } else {
+				        $td.text(record[key]);
+			        }
+
+                    /* We now have our pre-rendered TD */
+                    record[`${key}-td`] = $td;
+
+                    /* We now have our text after rendering used for search and sorting */
+                    record[key] = $td.text();
+                }
 			}
 
-			// Create cache of original full recordset (unpaginated)
+			/* Create cache of original full recordset (unpaginated) but cell rendered */
 			settings.originalRecords = overload([], settings.records);
+
+            console.log(settings.originalRecords); 
 		};
 
-		// For really advanced sorting, see http://james.padolsey.com/javascript/sorting-elements-with-jquery/
+		/* For really advanced sorting, see http://james.padolsey.com/javascript/sorting-elements-with-jquery/ */
 		this.sort = function() {
 
 			var sort = [].sort;
@@ -815,7 +846,7 @@
 
 			settings.sorts[attr] = direction;
 
-			if(index === -1) { 
+			if(index === -1) {
 				sortsKeys.push(attr);
 			}
 
@@ -877,7 +908,7 @@
 
 				var comparison = aAttr === bAttr ? 0 : (direction > 0 ? aAttr > bAttr : bAttr > aAttr);
 
-				// force false boolean value to -1, true to 1, and tie to 0
+				/* Force false boolean value to -1, true to 1, and tie to 0 */
 				return comparison === false ? -1 : (comparison - 0);
 			},
 
@@ -987,7 +1018,8 @@
 		};
 
 		this.removeArrow = function($link) {
-			// Not sure why `parent()` is needed, the arrow should be inside the link from `append()` above
+
+			/* Not sure why `parent()` is needed, the arrow should be inside the link from `append()` above */
 			$link.find('.dynamictable-arrow').remove();
 		};
 
@@ -1003,10 +1035,10 @@
 			this.removeAllArrows();
 			obj.sorts.clear();
 
-			// If sorts for this column are already set
+			/* If sorts for this column are already set */
 			if(sortedByColumn) {
 
-				// If ascending, then make descending
+				/* If ascending, then make descending */
 				if(value == 1) {
 
 					for (var i = 0, len = column.sorts.length; i < len; i++) {
@@ -1015,7 +1047,7 @@
 		
 					this.appendArrowDown($link);
 
-				// If descending, remove sort
+				/* If descending, remove sort */
 				} else {
 					
 				    for(var i = 0, len = column.sorts.length; i < len; i++) {
@@ -1025,7 +1057,7 @@
 				    this.removeArrow($link);
 				}
 
-			// Otherwise, if not already set, set to ascending
+			/* Otherwise, if not already set, set to ascending */
 			} else {
 
 				for(var i = 0, len = column.sorts.length; i < len; i++) {
@@ -1091,7 +1123,7 @@
 
 				query = settings.queries[i];
 
-				// collect all records that return true for query
+				/* collect all records that return true for query */
 				settings.records = $.map(settings.records, function(record) {
 					return _this.search(record, query) ? record : null;
 				});
@@ -1104,14 +1136,15 @@
 			}
 		};
 
-		// Query functions for in-page querying
-		// each function should take a record and a value as input
-		// and output true of false as to whether the record is a match or not
+		/*
+         * Query functions for in-page querying each function should take a record and a value as input 
+         *  and output true of false as to whether the record is a match or not.
+         */
 		this.search = function(record, queryValue) {
 
 			var contains = false;
 
-			// Loop through each attribute of record
+			/* Loop through each attribute of record */
 			for(attr in record) {
 
 				if(record.hasOwnProperty(attr)) {
@@ -1122,7 +1155,7 @@
 
 						contains = true;
 
-						// Don't need to keep searching attributes once found
+						/* Don't need to keep searching attributes once found */
 						break;
 
 					} else {
@@ -1578,12 +1611,29 @@
 			/* Allow a context menu to appear when right click occurs. */
 			$(document).on('contextmenu', `#${settings.element} tbody td`, function(event) {
 
+                $td = this;
+
 			    $contextMenu.children().hide();
 
 			    $contextMenu.css({
 					display: "block",
 					left: event.pageX,
 					top: event.pageY
+				});
+
+                /* Lets allow expanding column via right click */
+				$contextMenu.find('#context-menu-expand-column').show();
+				$contextMenu.find('#context-menu-expand-column').off('click');
+
+                $contextMenu.find('#context-menu-expand-column').on('click', function() {
+
+                    obj.settings.ctrlState = true;
+
+                    $td.click();
+
+                    obj.settings.ctrlState = false;
+
+					$('#context-menu').hide();
 				});
 
 				/* If we have a link then provide new tab option */
@@ -1598,15 +1648,15 @@
 					    $contextMenu.find('#context-menu-new-tab').show();
 					    $contextMenu.find('#context-menu-new-tab').off('click');
 
-					    $contextMenu.find('#context-menu-copy-link').show();
-					    $contextMenu.find('#context-menu-copy-link').off('click');
-
 					    $contextMenu.find('#context-menu-new-tab').on('click', function () {
 
 							window.open(linkHref, '_blank');
 
 							$('#context-menu').hide();
 						});
+
+					    $contextMenu.find('#context-menu-copy-link').show();
+					    $contextMenu.find('#context-menu-copy-link').off('click');
 
 					    $contextMenu.find('#context-menu-copy-link').on('click', function () {
 
