@@ -2,11 +2,13 @@
 	"site-name"			: "Elastic Inventory",
 	"site-title"		: "Elastic Inventory",
 	"site-banner"		: "Elastic Inventory.",
-	"site-footer"		: "&copy; 2019 Elastic Inventory",
+	"site-footer"		: "&copy; 2020 Elastic Inventory.",
 	"ok-button"			: "Ok",
 	"cancel-button"		: "Cancel",
 	"send-button"		: "Send",
+	"login-title"		: "Login",
 	"login-button"		: "Login",
+	"register-title"	: "Register",
 	"register-button"	: "Register",
 	"search-button"		: "Search"
 }

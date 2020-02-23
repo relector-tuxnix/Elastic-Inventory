@@ -1,27 +1,46 @@
-<link rel="stylesheet" href="/styles/elastic-inventory/Authentication.css">
+<script type="text/javascript">
+	{{{registerjs}}}
+</script>
 
-<ul id="error-message">
-	<li class="default-item">&nbsp;</li>
-</ul>
+<link rel="stylesheet" href="/styles/elastic-inventory/Login.css">
 
-<div id="register-message">
-	<p>{{message}}</p>
+<div class="ui middle aligned center aligned grid">
+	<div class="column">
+		<div class="ui content center">
+			<img src="images/elastic-inventory/logo.png" width="150" height="150"/>
+		</div>
+		<h1 class="ui image header center banner-text">
+			{{{locale "register-title"}}}
+		</h1>
+		<div id="register-message-list" class="message-list">
+			<div class="ui red message default-item">&nbsp;</div>
+		</div>
+		<form class="ui large form">
+			<div class="ui segment ei-colored">
+				<div class="field">
+					<div class="ui left icon input">
+						<i class="user icon"></i>
+						<input type="text" class="black-form-control" id="email" name="email" placeholder="E-mail address">
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui left icon input">
+						<i class="lock icon"></i>
+						<input type="password" class="black-form-control" id="password" name="password" placeholder="Password">
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui left icon input">
+						<i class="lock icon"></i>
+						<input type="password" class="black-form-control" id="confirm" name="confirm" placeholder="Confirm Password">
+					</div>
+				</div>
+				<div id="register-submit-button" class="ui fluid medium blue submit button">{{{locale "register-button"}}}</div>
+			</div>
+		</form>
+		<div class="ui message">
+			<a href="{{{pages.getLogin.uri}}}">Want to login?</a>
+		</div>
+	</div>
 </div>
-
-<form method="post" action="{{pages.postRegister.uri}}" class="form-signin">
-
-	<h1 class="h3 mb-3 font-weight-normal">{{{locale "site-title"}}}</h1>
-
-	<label for="email" class="sr-only">Email</label>
-	<input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
-	<label for="password" class="sr-only">Password</label>
-	<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-	<label for="confirm" class="sr-only">Password Confirm</label>
-	<input type="password" id="confirm" name="confirm" class="form-control" placeholder="Confirm Password" required>
-
-	<button class="btn btn-lg btn-primary btn-block" type="submit">{{{locale "register-button"}}}</button>
-
-	<p class="mt-5 mb-3 text-muted">{{{locale "site-footer"}}}</p>
-
-</form>
 

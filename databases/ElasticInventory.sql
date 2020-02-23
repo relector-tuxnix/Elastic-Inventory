@@ -2,37 +2,13 @@
 -- Elastic Inventory Database Schema
 --------------------------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS User (
-		id                   TEXT PRIMARY KEY,
-		email                TEXT,
-		emailConfirmed       NUMERIC NOT NULL DEFAULT 0,
-		passwordHash         TEXT,
-		lockoutEnd           TEXT,
-		lockoutEnabled       NUMERIC NOT NULL DEFAULT 0,
-		accessFailedCount    INTEGER NOT NULL DEFAULT 0,
-		creationDate		 TEXT, 
-		-- Constraints
-		CONSTRAINT User_ck_id UNIQUE (id),
-		CONSTRAINT User_ck_emailConfirmed CHECK (emailConfirmed IN (0, 1)),
-		CONSTRAINT User_ck_lockoutEnabled CHECK (lockoutEnabled IN (0, 1))
+CREATE TABLE IF NOT EXISTS Store (
+	_id                   TEXT PRIMARY KEY,
+	_type	             TEXT,
+	_data		         TEXT,
+	_user				 TEXT, 	
+	_creationDate		 TEXT,
+	CONSTRAINT User_ck_id UNIQUE (_id)
 ) WITHOUT ROWID;
 
-CREATE INDEX User_ix_email ON User (email);
-
-
-CREATE TABLE IF NOT EXISTS Inventory (
-		id                   TEXT PRIMARY KEY,
-		type	             TEXT,
-		data		         TEXT,
-		user				 TEXT, 	
-		creationDate		 TEXT,
-		-- Constraints
-		CONSTRAINT User_ck_id UNIQUE (id)
-) WITHOUT ROWID;
-
-CREATE INDEX Inventory_ix_type ON Inventory (type);
-
-
-
-
-
+CREATE INDEX Store_ix_type ON Store (_type);

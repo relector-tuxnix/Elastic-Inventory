@@ -1,0 +1,38 @@
+html {
+	min-height: 100%;
+}
+
+	body {
+		font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	}
+
+.banner-text {
+	font-weight: bold;
+	padding: 6px 15px 0px 15px;
+	margin-bottom: 15px;
+	width: 100%;
+	text-transform: uppercase;
+	font-kerning: unset;
+	letter-spacing: .1em;
+	background: linear-gradient(to bottom, #ffffff 60%, #cccccc 40%);
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	color: transparent;
+	text-align: center;
+	word-wrap: none;
+	white-space: nowrap;
+}
+
+.black-form-control {
+	border: 1px solid #000 !important;
+	background-color: #1e1e1e !important;
+	color: #fff !important;
+}
+
+	.black-form-control:focus { 
+		border: 1px solid #000 !important;
+		background-color: #1e1e1e !important;
+	}
+
+
+

@@ -7,7 +7,7 @@ etag_version               	:
 directory_contents			: /assets/
 directory_controllers		: /controllers/
 directory-views            	: /assets/views/
-directory_locale			: /assets/locale/
+directory-locale			: /assets/locale/
 directory_temp				: /tmp/
 directory_resources         : /assets/resources/
 directory_public            : /assets/static/
@@ -33,3 +33,4 @@ files-tmp-dir 				: /files/tmp/
 files-original-dir 			: /files/original/
 files-small-thumb-dir 		: /files/small-thumb/
 files-medium-thumb-dir 		: /files/medium-thumb/
+allow_compile				: false

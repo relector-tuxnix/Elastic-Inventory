@@ -1,23 +1,23 @@
 /***
-                                                                                                                                             
-    @@@@@@@   @@@ @@@  @@@  @@@   @@@@@@   @@@@@@@@@@   @@@   @@@@@@@  @@@@@@@   @@@@@@   @@@@@@@   @@@       @@@@@@@@            @@@   @@@@@@   
-    @@@@@@@@  @@@ @@@  @@@@ @@@  @@@@@@@@  @@@@@@@@@@@  @@@  @@@@@@@@  @@@@@@@  @@@@@@@@  @@@@@@@@  @@@       @@@@@@@@            @@@  @@@@@@@   
-    @@!  @@@  @@! !@@  @@!@!@@@  @@!  @@@  @@! @@! @@!  @@!  !@@         @@!    @@!  @@@  @@!  @@@  @@!       @@!                 @@!  !@@       
-    !@!  @!@  !@! @!!  !@!!@!@!  !@!  @!@  !@! !@! !@!  !@!  !@!         !@!    !@!  @!@  !@   @!@  !@!       !@!                 !@!  !@!       
-    @!@  !@!   !@!@!   @!@ !!@!  @!@!@!@!  @!! !!@ @!@  !!@  !@!         @!!    @!@!@!@!  @!@!@!@   @!!       @!!!:!              !!@  !!@@!!    
-    !@!  !!!    @!!!   !@!  !!!  !!!@!!!!  !@!   ! !@!  !!!  !!!         !!!    !!!@!!!!  !!!@!!!!  !!!       !!!!!:              !!!   !!@!!!   
-    !!:  !!!    !!:    !!:  !!!  !!:  !!!  !!:     !!:  !!:  :!!         !!:    !!:  !!!  !!:  !!!  !!:       !!:                 !!:       !:!  
-    :!:  !:!    :!:    :!:  !:!  :!:  !:!  :!:     :!:  :!:  :!:         :!:    :!:  !:!  :!:  !:!   :!:      :!:       :!:  !!:  :!:      !:!   
-     :::: ::     ::     ::   ::  ::   :::  :::     ::    ::   ::: :::     ::    ::   :::   :: ::::   :: ::::   :: ::::  :::  ::: : ::  :::: ::   
-    :: :  :      :     ::    :    :   : :   :      :    :     :: :: :     :      :   : :  :: : ::   : :: : :  : :: ::   :::   : :::    :: : :    
-                                                                                                                                             
+																															
+	@@@@@@@   @@@ @@@  @@@  @@@   @@@@@@   @@@@@@@@@@   @@@   @@@@@@@  @@@@@@@   @@@@@@   @@@@@@@   @@@       @@@@@@@@  
+	@@@@@@@@  @@@ @@@  @@@@ @@@  @@@@@@@@  @@@@@@@@@@@  @@@  @@@@@@@@  @@@@@@@  @@@@@@@@  @@@@@@@@  @@@       @@@@@@@@  
+	@@!  @@@  @@! !@@  @@!@!@@@  @@!  @@@  @@! @@! @@!  @@!  !@@         @@!    @@!  @@@  @@!  @@@  @@!       @@!       
+	!@!  @!@  !@! @!!  !@!!@!@!  !@!  @!@  !@! !@! !@!  !@!  !@!         !@!    !@!  @!@  !@   @!@  !@!       !@!       
+	@!@  !@!   !@!@!   @!@ !!@!  @!@!@!@!  @!! !!@ @!@  !!@  !@!         @!!    @!@!@!@!  @!@!@!@   @!!       @!!!:!    
+	!@!  !!!    @!!!   !@!  !!!  !!!@!!!!  !@!   ! !@!  !!!  !!!         !!!    !!!@!!!!  !!!@!!!!  !!!       !!!!!:    
+	!!:  !!!    !!:    !!:  !!!  !!:  !!!  !!:     !!:  !!:  :!!         !!:    !!:  !!!  !!:  !!!  !!:       !!:       
+	:!:  !:!    :!:    :!:  !:!  :!:  !:!  :!:     :!:  :!:  :!:         :!:    :!:  !:!  :!:  !:!   :!:      :!:       
+	 :::: ::     ::     ::   ::  ::   :::  :::     ::    ::   ::: :::     ::    ::   :::   :: ::::   :: ::::   :: ::::  
+	:: :  :      :     ::    :    :   : :   :      :    :     :: :: :     :      :   : :  :: : ::   : :: : :  : :: ::   
+
 
     * BASED ON:
     * 	 https://github.com/alfajango/jquery-dynatable 
     *
     * TODO:
     *  -Get by json attribute / id
-    *	-checkByRowId                      
+    *  -checkByRowId                      
     *  -checkByRowNumber                     
     *  -highlightByRowId             
     *  -highlightByRowNumber
@@ -65,42 +65,60 @@
 
                 <h2 class="table-header">&nbsp;</h2>
 
-                <ul id="context-menu">
+                <ul id="context-menu" class="options-menu">
 				    <li id="context-menu-new-tab">New Tab</li>
 				    <li id="context-menu-copy-link">Copy Link</li>
-				    <li id="context-menu-copy-cell">Copy Cell</li>
+				    <li id="context-menu-copy-text">Copy Text</li>
+				    <li id="context-menu-copy-value">Copy Value</li>
 				    <li id="context-menu-copy-row">Copy Row</li>
 				    <li id="context-menu-copy-column">Copy Column</li>
                     <li id="context-menu-expand-column">Expand Column</li>
 			    </ul>
 
-				<select id="dynamictable-per-page" class="dynamictable-per-page-select form-control">&nbsp;</select>
+				<ul id="select-menu" class="options-menu">
+					<li id="select-menu-select-page">Select Page</li>
+					<li id="select-menu-deselect-page">Deselect Page</li>
+					<li id="select-menu-select-all">Select All</li>
+					<li id="select-menu-deselect-all">Deselect All</li>
+				</ul>
+
+				<div id="dynamictable-selector" class="text-center form-control">
+					<i class="fa fa-list"></i>
+					<span id="select-count">&nbsp;</span>
+				</div>
+
+				<ul id="per-page-menu" class="options-menu">
+					<li id="per-page-menu-default">&nbsp;</li>
+				</ul>
+
+				<div id="dynamictable-per-page" class="text-center form-control">
+					<i class="fa fa-ruler-vertical"></i>
+					<span id="per-page-count">&nbsp;</span>
+				</div>
+
 				<div class="filler-header">&nbsp;</div>
 
                 <div class="dynamictable-search-wrapper">
-				    <input id="dynamictable-search" type="search" class="form-control" placeholder="Filter...">
-                    <i id="dynamictable-search-clear" class="fa fa-times-circle"></i>
+				    <input id="dynamictable-search" type="search" class="form-control" placeholder="Filter">
+					<div id="dynamictable-search-clear"> 
+                    	<i class="fa fa-times-circle"></i>
+					</div>
                 </div>
 
 				<div id="dynamictable-export" class="btn btn-dark"><i class="fa fa-download" aria-hidden="true">&nbsp;</i></div>
 
 				<div class="grid-scroll">
-					<table class="grid table table-sm table-light">
+					<table class="grid">
 						<thead>
 							<tr>
 							    <th id="empty-message" data-dynamictable-no-sort="true">No results found.</th>
-								<th class="th-check-box text-center" data-dynamictable-no-sort="true">
-									<div class="checkbox">
-										<input type="checkbox" />
-										<label for=""></label>
-									</div>
-								</th>
+
 								<th id="th-default" scope="col"></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td class="tb-check-box text-center">
+								<td id="tb-default-checkbox" class="tb-check-box text-center">
 									<div class="checkbox">
 										<input type="checkbox" />
 										<label for=""></label>
@@ -113,63 +131,69 @@
 				</div>
 
 				<span id="dynamictable-record-count">&nbsp;</span>
+
 				<div class="filler-footer">&nbsp;</div>
+
 				<ul id="dynamictable-pagination-links">&nbsp;</ul>
 
-			</div>`,
+			</div>
+		`,
 
-		paginatePage: true,                         /* Once turned off no pagination will occur and all results will be shown in a single table. Will disable paginatePerPage, paginationLinks */
-		paginatePerPage: true,                      /* Once turned off will not display: Show X per page dropdown */
-		recordCount: true,                          /* Once turned off will not display: Showing X of Y pages... */
-		paginationLinks: true,                      /* Once turned off will not display: Prev XYZ Next */
-		sort: true,                                 /* Once turned off no sorting by column will be possible */
-		search: true,                               /* Once turned off no quick search input field will be shown */
-		select: true,                               /* Once turned off no checkbox select column will be shown */
-		export: true,                               /* Once turned off no export button will be displayed. Requires SELECT to be turned on. -- export all if non selected not working */
-		contextMenu: true,                          /* Once turned off no context menu will appear on left click */
-		simple: false,                              /* Once turned on all GUI elements excluding the table and context menu will be hidden */
-        hideLabels: false,                          /* Turn off header of the table */
+		paginatePage: true,							/* Once turned off no pagination will occur and all results will be shown in a single table. Will disable paginatePerPage, paginationLinks */
+		paginatePerPage: true,						/* Once turned off will not display: Show X per page dropdown */
+		recordCount: true,							/* Once turned off will not display: Showing X of Y pages... */
+		paginationLinks: true,						/* Once turned off will not display: Prev XYZ Next */
+		sort: true,									/* Once turned off no sorting by column will be possible */
+		search: true,								/* Once turned off no quick search input field will be shown */
+		select: true,								/* Once turned off no checkbox select column will be shown */
+		export: true,								/* Once turned off no export button will be displayed. Requires SELECT to be turned on. -- export all if non selected not working */
+		contextMenu: true,							/* Once turned off no context menu will appear on left click */
+		simple: false,								/* Once turned on all GUI elements excluding the table and context menu will be hidden */
+		hideLabels: false,							/* Turn off header of the table */
 
-		columns: [],                                /* All columns based on the provided data set, some may be hidden etc */
-		renderedColumns: [],                        /* Columns that appear on the page */
-		columnsIgnore: ['dynamictable-index'],      /* Which columns do we not want to display */
-		exportsIgnore: ['dynamictable-index'],      /* On export which columns should be excluded */
-		orderColumns: [],                           /* Sometimes sorting column order is wanted */
-		hideColumnLabel: [],                        /* Sometimes you dont want a label on a column */
-		disableExpand: [],                          /* Tell me which columns cannot be expanded on click */
-		cells: [],                                  /* Custom cell renderers */
-		checkByRowId: [],                           /* Give me a row with a unique ID and I will check the row for you, except if SELECT is false */
-		checkByRowNumber: [],                       /* Give me a row number starting from 0 and I will check the row for you, except if SELECT is false */
-		highlightByRowId: [],                       /* Give me a row with a unique ID and I will highlight the whole row */
-		highlightByRowNumber: [],                   /* Give me a row number starting from 0 and I will highlight the whole row */
+		columns: [],								/* All columns based on the provided data set, some may be hidden etc */
+		renderedColumns: [],						/* Columns that appear on the page */
+		columnsIgnore: [],							/* Which columns do we not want to display */
+		columnsKeep: [],							/* Which columns do we want to display */
+		exportsIgnore: ['dynamictable-select'],		/* On export which columns should be excluded */
+		orderColumns: [],							/* Sometimes sorting column order is wanted */
+		renameColumns: {},							/* Sometimes we want to rename a column because the one provided by the records is insuffient */
+		hideColumnLabel: [],						/* Sometimes you dont want a label on a column */
+		disableExpand: [],							/* Tell me which columns cannot be expanded on click */
+		cells: [],									/* Custom cell renderers */
+		searchKeys: [],								/* Give me a key in settings.records to search */ 
+		checkByRowId: [],							/* Give me a row with a unique ID and I will check the row for you, except if SELECT is false */
+		checkByRowNumber: [],						/* Give me a row number starting from 0 and I will check the row for you, except if SELECT is false */
+		highlightByRowId: [],						/* Give me a row with a unique ID and I will highlight the whole row */
+		highlightByRowNumber: [],					/* Give me a row number starting from 0 and I will highlight the whole row */
 
-		shiftState: false,
 		paginationClass: 'dynamictable-pagination-links',
 		paginationLinkClass: 'dynamictable-page-link',
-		paginationPrevClass: 'dynamictable-page-prev',
-		paginationNextClass: 'dynamictable-page-next',
+		paginationPrevClass: 'form-control dynamictable-page-prev',
+		paginationNextClass: 'form-control dynamictable-page-next',
 		paginationActiveClass: 'dynamictable-active-page',
 		paginationDisabledClass: 'dynamictable-disabled-page',
 		paginationPrev: 'Previous',
 		paginationNext: 'Next',
-		paginationGap: [1,2,2,1],
+		paginationGap: [1 ,2, 2, 1],
 
 		totalRecordCount: null,
 		queries: [],
 		queryRecordCount: null,
 		page: null,
+		perPage: 1,
 		perPageDefault: 10,
 		perPageOptions: [5, 10, 20, 50, 100, 200],
 		sorts: {},
 		sortsKeys: [],
 		sortTypes: {},
 		records: [],
-        renderedRecords: [],                        /* What do the cells actually look like after being rendered */
 
-        shiftState: false,
-        ctrlState: false,
+		shiftState: false,
+		ctrlState: false,
+		clickThrew: true,                           /* Controls clicks on links within a TD without deselecting the row */
 
-        callback: null
+		callback: null
 	};
 
 
@@ -184,7 +208,7 @@
             /* We want to ensure our defaults are preserved...so we clone before merge */
             this.settings = overload(clone(defaults), options);
 
-			this.settings.element = element.id;
+			this.settings.element = element;
 
 			for(model in modelPrototypes) {
 
@@ -201,6 +225,7 @@
 			return this;
 		},
 
+		/* This is called only externally to the plugin not within */
 		update: function() {
 
 		    this.records.init();
@@ -208,19 +233,33 @@
 		    this.process();
 		},
 
+		/* 
+		 * This does the slicing and dicing of records based on changes made by:
+		 *  -PaginationPage
+		 *	-PaginationPerPage
+		 *  -PaginationLinks
+		 *	-Queries
+		 *  -Sorts
+		 */
 		process: function() {
 
+			/* We start fresh with the record set */
 			this.records.resetOriginal();
+
+			/* Run our search query if one exists */
 			this.queries.run();
 
+			/* Do our sorting if any exists */
 			if(this.settings.sort) {
 			    this.records.sort();
 			}
 
+			/* Now lets do our slicing and dicing */
 			if(this.settings.paginatePage) {
 			    this.records.paginate();
 			}
 
+			/* Update the dom to reflect the change in records */
 			this.dom.update();
 		},
 
@@ -252,6 +291,8 @@
             this.$element.find('.filler-header').show();
             this.$element.find('.filler-footer').show();
             this.$element.find('#context-menu').hide();
+			this.$element.find('#select-menu').hide();
+			this.$element.find('#per-page-menu').hide();
             this.$element.find('.grid-scroll').show();
 			this.$element.find('.grid').show();
 
@@ -285,7 +326,7 @@
 		    $('body').prepend(settings.template);
 
 			/* Now we get our inserted template element */
-			obj.$defaultElement = $('.default-table-wrapper').attr('id', `${settings.element}-default`);
+			obj.$defaultElement = $('.default-table-wrapper');
 
             /* Remove the main checkbox if select is disabled */
 			if(settings.select == false) {
@@ -296,7 +337,7 @@
 			obj.$defaultElement.find('.table-header').remove();
 
 			/* We add the required DOM elements to the users element */
-			obj.$element = $(`#${settings.element}`);
+			obj.$element = $(settings.element);
 			obj.$element.append(obj.$defaultElement.clone().html());
 
 			if(settings.simple == true) {
@@ -306,11 +347,11 @@
 
             /* Remove elements that are not shared between tables */
 			obj.$defaultElement.find('#context-menu').remove();
+			obj.$defaultElement.find('#select-menu').remove();
+			obj.$defaultElement.find('#per-page-menu').remove();
 
 			obj.$elementTable = obj.$element.find('.grid');
-			obj.$elementTable.find('thead tr').children().not('.th-check-box').not('#empty-message').remove();
-			obj.$elementTable.find('.th-check-box input').attr('id', `${settings.element}-checkbox`);
-			obj.$elementTable.find('.th-check-box label').attr('for', `${settings.element}-checkbox`);
+			obj.$elementTable.find('thead tr').children().not('#empty-message').remove();
 			obj.$elementTable.find('tbody tr').remove();
 
             /* Global Key Listener */
@@ -330,56 +371,59 @@
     		/* Enable cell expanding for better space utilisation */
 			obj.$elementTable.on('click', 'tbody td', function(event) {
 
+                /* We only allow column expansion when ctrl key is down */
+                if(obj.settings.ctrlState == false) {
+                    return;
+                }
+
 				var $td = $(this);
 				var $row = $td.parent();
 				var colTdIdx = $row.children().index(this);
 				var colObjIdx = colTdIdx;
 
-                /* Do we have a column expansion ? */
-                if(obj.settings.ctrlState == true) {
+				/* Because we always +1 when select is enabled we never set a click event on the select column */
+				if(settings.select) {
+					colObjIdx -= 1;
+				}
 
-				    /* Because we always +1 when select is enabled we never set a click event on the select column */
-				    if(settings.select) {
-					    colObjIdx -= 1;
-				    }
+				colTdIdx += 1;
 
-				    colTdIdx += 1;
-
-		            /* Do we have a column that with disabled expand specified */
-				    var colObj = findObjectInArray(settings.renderedColumns, {index: colObjIdx});
+		        /* Do we have a column that with disabled expand specified */
+				var colObj = findObjectInArray(settings.renderedColumns, {index: colObjIdx});
 		
-				    if(isNullOrWhiteSpace(colObj) == false && settings.disableExpand.indexOf(colObj.label) > -1) {
-					    return;
-				    }
+				if(isNullOrWhiteSpace(colObj) == false && settings.disableExpand.indexOf(colObj.label) > -1) {
+					return;
+				}
 
-                    /* Deselect any selected text to prevent shift-select */
-                    document.getSelection().removeAllRanges();
+                /* Deselect any selected text to prevent shift-select */
+                document.getSelection().removeAllRanges();
 				
-				    /* Add our expand click event to the column */
-            	    obj.$elementTable.find(`td:nth-child(${colTdIdx})`).each(function() {
+				/* Add our expand click event to the column */
+            	obj.$elementTable.find(`td:nth-child(${colTdIdx})`).each(function() {
 
-					    var checked = $td.parent().find('.tb-check-box input').prop('checked');
+                    var $columnTd = $(this);
+
+					var checked = $columnTd.parent().find('.tb-check-box input').prop('checked');
 					
-					    /* Shrink the column if it's expanded, and either the clicked row is selected or the cell can't be selected */
-					    if($(this).hasClass('td-select')) {
+					/* Shrink the column if it's expanded, and either the clicked row is selected or the cell can't be selected */
+					if($columnTd.hasClass('td-select')) {
 					 
-						    $(this).removeClass("td-select");
+						$columnTd.removeClass("td-select");
 
-						    if(checked == false) {
-							    $(this).removeClass('off');
-						    }
+						if(checked == false) {
+							$columnTd.removeClass('off');
+						}
 					
-					    /*Expand the column if: the clicked row is either unselected or the cells are links, and not checkboxes */
-					    } else if($(this).hasClass('td-checkbox') == false) {
+					/*Expand the column if: the clicked row is either unselected or the cells are links, and not checkboxes */
+					} else if($columnTd.hasClass('td-checkbox') == false) {
 
-						    $(this).addClass("td-select");
+						$columnTd.addClass("td-select");
 
-						    if(checked == false) {
-							    $(this).addClass('off');
-						    }
-					    }
-				    });
-                }
+						if(checked == false) {
+							$columnTd.addClass('off');
+						}
+					}
+				});
 			});
 		};
 
@@ -404,68 +448,25 @@
 			/* Loop through records and render rows -> cells */
             for(var i = 0, len = settings.records.length; i < len; i++) {
 
-				var record = settings.records[i];
-
-				/* From the grid row, clone the default table row and then remove from the grid */
-				var $tr = obj.$defaultElement.find('tbody tr').clone().removeAttr('id');
-
-				if(settings.select) {
-
-					var uniqueId = record['dynamictable-index'];
-
-					$tr.find('.tb-check-box input').val(uniqueId);
-					$tr.find('.tb-check-box input').attr('id', `${settings.element}-checkbox-${uniqueId}`);
-					$tr.find('.tb-check-box label').attr('for', `${settings.element}-checkbox-${uniqueId}`);
-
-                    /* We have a custom cell renderer for select boxes */
-					var custom = findObjectInArray(settings.cells, {column: 'select-box'});
-
-					if(custom) {
-						custom.render(settings, null, record, $tr);
-					}
-				}
-
-				settings.renderedColumns = [];
-
-				/* grab the record's attribute for each column */
-				for(var j = 0, len2 = settings.columns.length; j < len2; j++) {
-
-				    var column = settings.columns[j];
-                    var key = column.id;
-
-                    /* Use our pre-rendered TD */
-					$td = $tr.find('#tb-default').replaceWith(record[`${key}-td`]);
-
-					/* Do we have a column that is disabled expand specified */
-					if(settings.disableExpand.indexOf(key) > -1) {
-						$td.addClass("td-select off");
-					}
-	
-					/* Keep cells for hidden column headers hidden */
-					if(column.hidden) {
-						$td.hide();
-					}
-
-				    /* We want to record which columns are actually shown */
-					settings.renderedColumns.push(column);
-
-					$tr.append($td);
-				}
-
-				$tr.find('#tb-default').remove();
+				var $tr = settings.records[i]['dynamictable-rendered-tr'];
 
 				obj.$elementTable.find('tbody').append($tr);
             }
 
             /*
-             * We do set full then updates, as sometimes we want to hide elements on update.
+             * We set full then do updates, as sometimes we want to hide elements on update.
              * Callback is only called once, so we only want to do a full update once.
              * Otherwise we may get hidden elements popping from subsequent updates that were hidden in the callback.
              */
             obj.setFull();
 
+			/* Drop down menu (top left) */
             obj.paginationPerPage.update();
+
+			/* Page count (bottom left) */
             obj.recordsCount.update();
+
+			/* Page links (bottom right) */
             obj.paginationLinks.update();
      	};
     };
@@ -473,6 +474,7 @@
 
 	//-----------------------------------------------------------------
 	// Given the settings.records json get the columns (key/column => value)
+	// This is only called once to generate the columns.
 	//-----------------------------------------------------------------
 	function DomColumns(obj, settings) {
 
@@ -486,13 +488,23 @@
 
 			if(settings.columns.length == 0 && settings.records.length > 0) {
 
+                this.renameColumns();
+
 				columns = this.orderColumns();
 
 				for(var i = 0, len = columns.length; i < len; i++) {
 
 					var label = columns[i];
 
-					if(settings.columnsIgnore.indexOf(label) == -1) {
+					/* Columns Keep gets priority over Ignore */
+					if(isNullOrEmpty(settings.columnsKeep) == false) {
+			
+						if(settings.columnsKeep.indexOf(label) > -1) {
+
+							_this.add(label, i);
+						}
+
+					} else if(settings.columnsIgnore.indexOf(label) == -1) {
 
 						_this.add(label, i);
 					}
@@ -505,27 +517,37 @@
 			var columns = settings.columns;
 			var id = label;
 
-			/* Add tr th to the DOM */
-			var $column = obj.$defaultElement.find('#th-default').clone().removeAttr('id');
+			var $column;
 
-			/* Check if hide labels for columns */
-			if(settings.hideColumnLabel.indexOf(id) == -1) {
-				$column = $column.text(label).attr('data-dynamictable-column', id).addClass('dynamictable-head');
+			if(id == 'dynamictable-select') {
+
+				$column = obj.$defaultElement.find('#th-default-checkbox').clone();
+
+				$column.removeAttr('id').attr('data-dynamictable-column', id).addClass('dynamictable-head');
+
 			} else {
-				$column = $column.attr('data-dynamictable-column', id).addClass('dynamictable-head');
+
+				/* Add tr th to the DOM */
+				$column = obj.$defaultElement.find('#th-default').clone().removeAttr('id');
+
+				/* Check if hide labels for columns */
+				if(settings.hideColumnLabel.indexOf(id) == -1) {
+					$column.text(label).attr('data-dynamictable-column', id).addClass('dynamictable-head');
+				} else {
+					$column.attr('data-dynamictable-column', id).addClass('dynamictable-head');
+				}
 			}
 
-            if(settings.hideLabels == false) {
-			    obj.$elementTable.find('thead tr').append($column);
-            }
+			if(settings.hideLabels == false) {
+				obj.$elementTable.find('thead tr').append($column);
+			}
 
 			/* Add column data to plugin instance */
 			columns.splice(position, 0, {
 				index: position,
 				label: label,
 				id: id,
-				sorts: [id],
-				hidden: false,
+				sorts: [id]
 			});
 		};
 
@@ -535,6 +557,11 @@
 
 			/* Our columns are determined from the keys of the first json record */
 			columns = Object.keys(settings.records[0]);
+
+			/* Add our select column if its enabled */
+			if(settings.select) {
+				ordered.push("dynamictable-select");
+			}
 
 			/* Need to order columns from left to right */
 			for(var i = 0, len = settings.orderColumns.length; i < len; i++) {
@@ -558,6 +585,33 @@
 
 			return ordered;
 		};
+
+    	this.renameColumns = function() {
+
+            /* Only determine keys once */
+            var columns = Object.keys(settings.records[0]);
+
+			/* Our columns are determined from the keys of the first json record */
+			for(var i = 0, len = settings.records.length; i < len; i++) {
+
+                var record = settings.records[i];
+
+                for(var j = 0, len2 = columns.length; j < len2; j++) {
+   
+                    var columnKey = columns[j];
+
+                    var renameColumn = settings.renameColumns[columnKey]
+
+                    if(isNullOrEmpty(renameColumn)) {
+                        continue;
+                    }
+
+                    record[renameColumn] = record[columnKey];
+
+                    delete record[columnKey];
+                } 
+            }		
+        };
 
 		this.remove = function(columnIndexOrId) {
 
@@ -605,7 +659,8 @@
 
 
     //-----------------------------------------------------------------
-    // Dynatable object models
+    // Dynamic Table Records
+	//  All records -> rows are pre-rendered to ensure faster page loads
     //-----------------------------------------------------------------
 	function Records(obj, settings) {
 
@@ -627,41 +682,93 @@
                 /* We always need a unique ID per row! */
 				record['dynamictable-index'] = i;
 
+				/* From the grid row, clone the default table row and then remove from the grid */
+				var $tr = obj.$defaultElement.find('tbody tr').clone().removeAttr('id');
+
+				/* Remove our default TB elements used in pre-rendering */
+				$tr.find('#tb-default-checkbox').remove();
+				$tr.find('#tb-default').remove();
+
+                /* We need to be able to match a table row to the in-memory record in records */
+                $tr.attr('data-dynamictable-index', record['dynamictable-index']);
+
+				/* We want to record which columns are actually shown, unlike dynamictable-select etc */
+				settings.renderedColumns = [];
+
                 /* Grab the record's attribute for each column */
 				for(var j = 0, len2 = settings.columns.length; j < len2; j++) {
 
                     var column = settings.columns[j];
+
                     var key = column.id;
 
-                    /* If we have a wild card cell renderer then look for a specific renderer for the given column */
-                    var custom = findObjectInArray(settings.cells, {column: key});
+					settings.renderedColumns.push(column);
 
-                    /* Otherwise, do we have a custom cell renderer for all cells '*' */
-                    if(isNull(custom)) {
-				        custom = findObjectInArray(settings.cells, {column: '*'});
-                    }
+					/* Temporary TD to render into */
+					var $td;
 
-                    /* Temporary TD to render into */
-                    var $td = obj.$defaultElement.find('#tb-default').clone().removeAttr('id');
+					if(key == 'dynamictable-select') {
 
-			        if(custom) {
-				        custom.render(settings, column, record, $td);
-			        } else {
-				        $td.text(record[key]);
-			        }
+						var uniqueId = record['dynamictable-index'];
 
+						$td = obj.$defaultElement.find('#tb-default-checkbox').clone().removeAttr('id');
+
+						$td.find('input').val(uniqueId);
+						$td.find('input').attr('id', `${settings.element.id}-checkbox-${uniqueId}`);
+						$td.find('label').attr('for', `${settings.element.id}-checkbox-${uniqueId}`);
+
+						/* We have a custom cell renderer for select boxes */
+						var custom = findObjectInArray(settings.cells, {column: key});
+
+						if(custom) {
+							custom.render(settings, null, record, $td);
+						}
+						
+						$td.addClass("td-select off");
+	
+						record[`${key}-rendered`] = "";
+
+					} else {
+
+						$td = obj.$defaultElement.find('#tb-default').clone().removeAttr('id');
+
+						/* If we have a wild card cell renderer then look for a specific renderer for the given column */
+						var custom = findObjectInArray(settings.cells, {column: key});
+
+						/* Otherwise, do we have a custom cell renderer for all cells '*' */
+						if(isNull(custom)) {
+							custom = findObjectInArray(settings.cells, {column: '*'});
+						}
+
+						if(custom) {
+							custom.render(settings, column, record, $td);
+						} else {
+							$td.text(record[key]);
+						}
+
+						/* Do we have a column that is disabled expand specified */
+						if(settings.disableExpand.indexOf(key) > -1) {
+							$td.addClass("td-select off");
+						}
+
+                    	/* We now have our text after rendering used for search and sorting */
+                    	record[`${key}-rendered`] = $td.text();
+					}
+
+                    /* Tell the cell which column it belongs too for easier lookups */
+                    $td.attr('data-dynamictable-column', column.label);
+			
                     /* We now have our pre-rendered TD */
                     record[`${key}-td`] = $td;
 
-                    /* We now have our text after rendering used for search and sorting */
-                    record[key] = $td.text();
+					$tr.append($td);
                 }
+
+				record['dynamictable-rendered-tr'] = $tr;
 			}
 
 			/* Create cache of original full recordset (unpaginated) but cell rendered */
 			settings.originalRecords = overload([], settings.records);
-
-            console.log(settings.originalRecords); 
 		};
 
 		/* For really advanced sorting, see http://james.padolsey.com/javascript/sorting-elements-with-jquery/ */
@@ -673,7 +780,7 @@
 			var sortTypes = settings.sortTypes;
 
 			var sortFunction = function(a, b) {
-				
+		
 				var comparison;
 				
 				if($.isEmptyObject(sorts)) {
@@ -685,9 +792,11 @@
 					for(var i = 0, len = sortsKeys.length; i < len; i++) {
 
 						var attr = sortsKeys[i];
+                        var attrRendered = `${attr}-rendered`;
+
 						var direction = sorts[attr];
-						var sortType = sortTypes[attr] || obj.sorts.guessType(a, b, attr);
-						var comparison = obj.sorts.functions[sortType](a, b, attr, direction);
+						var sortType = sortTypes[attr] || obj.sorts.guessType(a, b, attrRendered);
+						var comparison = obj.sorts.functions[sortType](a, b, attrRendered, direction);
 
 						// Don't need to sort any further unless this sort is a tie between a and b,
 						// so break the for loop unless tied
@@ -713,6 +822,7 @@
 		};
 
 		this.resetOriginal = function() {
+
 			settings.records = settings.originalRecords || [];
 		};
 
@@ -1029,10 +1139,14 @@
 
 		this.toggleSort = function(e, $link, column) {
 	
+            /* Make sure nothing is selected on sort */
+            obj.inputsSelect.deselect();
+
 			var sortedByColumn = this.sortedByColumn($link, column);
 			var value = this.sortedByColumnValue(column);
 
 			this.removeAllArrows();
+
 			obj.sorts.clear();
 
 			/* If sorts for this column are already set */
@@ -1095,7 +1209,10 @@
 
 		/* Shortcut for performing simple query from built-in search */
 		this.runSearch = function(q) {
-    
+
+            /* Make sure nothing is selected on search */
+            obj.inputsSelect.deselect();
+
             /* Make sure the input matches the given query */
             obj.$element.find('#dynamictable-search').val(q);
 
@@ -1147,9 +1264,17 @@
 			/* Loop through each attribute of record */
 			for(attr in record) {
 
-				if(record.hasOwnProperty(attr)) {
+                /* By default we only want rendered cells */
+                var attrKey = `${attr}-rendered`;
 
-					var attrValue = record[attr];
+                /* But sometimes we want to search hidden values in settings.records */
+                if(settings.searchKeys.indexOf(attr) > -1) {
+                    attrKey = attr;
+                }
+
+				if(record.hasOwnProperty(attrKey)) {
+
+					var attrValue = record[attrKey];
 
 					if(typeof(attrValue) === "string" && attrValue.toLowerCase().indexOf(queryValue.toLowerCase()) !== -1) {
 
@@ -1171,7 +1296,7 @@
 
 
 	//-----------------------------------------------------------------
-	// Dynamic search input functinoality
+	// Dynamic search input functionality
 	//-----------------------------------------------------------------
 	function InputsSearch(obj, settings) {
 
@@ -1200,7 +1325,7 @@
 				}
 			});
     
-            obj.$element.find('#dynamictable-search-clear').bind('click', function(e) {
+            obj.$element.find('#dynamictable-search-clear').on('click', function(e) {
 				
                 $search.val('');
 
@@ -1245,16 +1370,19 @@
 
                 var toExport = [];
 
-                /* Remove export columns that are to be ignored! */
                 for(var i = 0, len = items.length; i < len; i++) {
             
                     var cleaned = {}
 
 				    for(var j = 0, len2 = settings.renderedColumns.length; j < len2; j++) {
         
-				        var col = settings.renderedColumns[j].label;
+						var col = settings.renderedColumns[j].label;
 
-					    cleaned[col] = items[i][col];
+						if(settings.exportsIgnore.indexOf(col) > -1) {
+							continue;
+						}
+
+						cleaned[col] = items[i][col];
 				    }
 
                     toExport.push(cleaned);
@@ -1349,8 +1477,9 @@
 		this.initOnLoad = function() {
 
 			if(settings.select == false) {
-				obj.$defaultElement.find('.th-check-box').remove();
 				obj.$defaultElement.find('.tb-check-box').remove();
+				obj.$element.find("#select-menu").remove();
+				obj.$element.find("#dynamictable-selector").remove();
 			}
 
 			return settings.select && !settings.simple;
@@ -1365,11 +1494,54 @@
 
 		this.create = function() {
 
+			var $selectMenu = obj.$element.find("#select-menu");
+
+			/* Hide select menu when click elsewhere */
+			$('html').click(function(e) {
+
+				var $isMenu = $(e.target).closest('div').is('#dynamictable-selector');
+
+				if($isMenu == false) {
+
+					$selectMenu.hide();
+				}
+			});
+
+            obj.$elementTable.on('click', 'tbody td a', function(event) {
+
+                if(settings.shiftState == true) {
+
+                    /* If we are doing a shift select then do not allow click on links */
+                    event.preventDefault();
+
+                } else {
+
+                    /* When we click on a link we do not want the whole row to deselect */
+                    settings.clickThrew = false;
+                }
+            });
+            
 			obj.$elementTable.on('click', 'tbody td', function() {
 
                 /* Do not allow select when expanding column */
-                if(settings.ctrlState == true) {
+                if(settings.ctrlState == true || settings.clickThrew == false) {
+
+                    settings.clickThrew = true;
+
                     return;
+                }
+
+				/* If we have the context menu open all clicks will close it */
+				if(settings.contextMenu == true && obj.inputsContextMenu.isVisible == true) {
+
+					return;
+				}
+
+                /* We want to do a multi-select as shift is down */
+                if(settings.shiftState == true) {
+
+                    /* Deselect any selected text to prevent shift-select */
+                    document.getSelection().removeAllRanges();
                 }
 
                 /* Lets toggle the checkbox */
@@ -1392,57 +1564,55 @@
                     _this.highlightRow($tr);
                 }
 
-                /* We want to do a multi-select as shift is down */
-                if(settings.shiftState == true) {
-
-                    /* Deselect any selected text to prevent shift-select */
-                    document.getSelection().removeAllRanges();
-                }
-
 				_this.shiftSelect($checkbox);
+
+				_this.updateSelectCount();
             });
 
-			obj.$elementTable.on('change', '.tb-check-box input', function(e) {
-    
-                /* Lets toggle the checkbox */
-                var $tr = $(this).parent().parent().parent();
-                var $checkbox = $(this);
-				var checked = $(this).prop("checked"); 
+			obj.$element.on('click', '#dynamictable-selector', function(event) {
 
-                /* Will be checked by the user, so no need to programatically do it */
-				if(checked) {
+				$selectMenu.children().show();
 
-                    _this.highlightRow($tr);
+				$selectMenu.css({
+					display: "block",
+					left: event.pageX,
+					top: event.pageY
+				});
 
-				} else {
+				$selectMenu.find('#select-menu-select-page').off('click');
 
- 					_this.unhighlightRow($tr);
-				}
+                $selectMenu.find('#select-menu-select-page').on('click', function() {
 
-                _this.shiftSelect($checkbox);
-			});
+					_this.select();
 
-			obj.$elementTable.on('click', '.th-check-box input', function(e) {
-    
-				var checked = $(this).prop("checked");
+					$selectMenu.hide();
+				});
 
-				obj.$elementTable.find('.tb-check-box input').each(function(index) {
+				$selectMenu.find('#select-menu-select-all').off('click');
 
-                    var $tr = $(this).parent().parent().parent();
-                    var $checkbox = $(this);
+                $selectMenu.find('#select-menu-select-all').on('click', function() {
 
-					if(checked) {
+					_this.selectAll();
 
-						$checkbox.prop('checked', true);
+					$selectMenu.hide();
+				});
 
-                        _this.highlightRow($tr);
+				$selectMenu.find('#select-menu-deselect-page').off('click');
 
-					} else {
+				$selectMenu.find('#select-menu-deselect-page').on('click', function() {
 
-						$checkbox.prop('checked', false);
+					_this.deselect();
 
-                        _this.unhighlightRow($tr);
-					}
+					$selectMenu.hide();
+				});
+
+				$selectMenu.find('#select-menu-deselect-all').off('click');
+
+  				$selectMenu.find('#select-menu-deselect-all').on('click', function() {
+
+					_this.deselectAll();
+
+					$selectMenu.hide();
 				});
 			});
 		};
@@ -1456,12 +1626,44 @@
 			});
 		};
 
+		this.highlightRowByIndex = function(index) {
+
+			obj.$elementTable.find(`tr[data-dynamictable-index="${index}"]`).children().each(function() {
+
+				$(this).addClass('td-highlight');
+				$(this).addClass('off');
+			});
+		};
+
 		this.unhighlightRow = function($tr) {
 
 			$tr.children().each(function() {
 
 				$(this).removeClass('td-highlight');
 				$(this).removeClass('off');
+
+				var key = $(this).attr('data-dynamictable-column');
+
+				/* Do we have a column that is disabled expand specified */
+				if(settings.disableExpand.indexOf(key) > -1) {
+					$(this).addClass('off');
+				}
+			});
+		};
+
+		this.unhighlightRowByIndex = function(index) {
+
+            obj.$elementTable.find(`tr[data-dynamictable-index="${index}"]`).children().each(function() {
+
+				$(this).removeClass('td-highlight');
+				$(this).removeClass('off');
+
+				var key = $(this).attr('data-dynamictable-column');
+
+				/* Do we have a column that is disabled expand specified */
+				if(settings.disableExpand.indexOf(key) > -1) {
+					$(this).addClass('off');
+				}
 			});
 		};
 
@@ -1469,46 +1671,155 @@
 
 			var ids = [];
 
-			var ticks = obj.$elementTable.find('.tb-check-box input');
+			for(var i = 0, len = settings.originalRecords.length; i < len; i++) {
 
-			for(i = 0; i < ticks.length; i++) {
+				var $tick = settings.originalRecords[i]['dynamictable-select-td'].find('input');
 
-				var tick = ticks[i];
+				if($tick.prop('checked')) {
 
-				if(tick.checked) {
-
-					var completeRecord = findObjectInArray(settings.records, {
-						'dynamictable-index' : tick.value
-					});
-
-					if(completeRecord == null) {
-						continue;
-					}
-
-                    /* Provide the DOM element the checkbox is contained within */
-                    completeRecord['dynamictable-tb-check-box'] = $(tick).parent();
-
-					ids.push(completeRecord);
+					ids.push(settings.originalRecords[i]);
 				}
 			}
 
 			return ids;
 		};
 
-        this.deselect = function() {
+	    /* Select all rows */
+        this.updateSelectCount = function() {
 
-            obj.$elementTable.find('.th-check-box input').prop('checked', false);
+			var selectCount = 0;
+			var $selectCount = obj.$element.find("#select-count");
 
-            obj.$elementTable.find('tr').each(function() {
+			/* We use the in-memory pre-rendered originalRecords TD's as that covers all records not just paginated records */
+			for(var i = 0, len = settings.originalRecords.length; i < len; i++) {
+
+				var isChecked = settings.originalRecords[i]['dynamictable-select-td'].find('input').prop("checked");
+
+				if(isChecked) {
+					selectCount++;
+				}		
+			}
+
+			$selectCount.text(selectCount);
+
+			if(selectCount == 0) {
+				$selectCount.hide();
+			} else {
+				$selectCount.show();
+			}
+        };
+
+        /* Select all rows on page */
+        this.select = function() {
+
+			/* Reset first clicked state */
+			_this.first = null;
+
+			/* We use the in-memory pre-rendered record TD's as that the paginated */
+			for(var i = 0, len = settings.records.length; i < len; i++) {
+
+				var $tr = settings.records[i]['dynamictable-select-td'].parent();
+
+				_this.selectByTr($tr);
+			}
+
+			_this.updateSelectCount();
+        };
+
+	    /* Select all rows */
+        this.selectAll = function() {
+
+			/* Reset first clicked state */
+			_this.first = null;
+
+			/* We use the in-memory pre-rendered originalRecords TD's as that covers all records not just paginated records */
+			for(var i = 0, len = settings.originalRecords.length; i < len; i++) {
+
+				var $tr = settings.originalRecords[i]['dynamictable-select-td'].parent();
+
+				_this.selectByTr($tr);
+			}
+
+			_this.updateSelectCount();
+        };
+
+        /* Select by a dynamictable-index */
+        this.selectByIndex = function(index) {
+
+            obj.$elementTable.find(`tr[data-dynamictable-index="${index}"]`).each(function() {
 
                 $tr = $(this);
 
-			    _this.unhighlightRow($tr);
-
-                $tr.find('.tb-check-box input').prop("checked", false);
+				_this.selectByTr($tr);
             });
+
+			_this.updateSelectCount();
         };
 
+        /* Select by a table row element */
+        this.selectByTr = function($tr) {
+
+			_this.highlightRow($tr);
+
+            $tr.find('.tb-check-box input').prop("checked", true);
+        };
+
+        /* Deselect all rows on page */
+        this.deselect = function() {
+
+			/* Reset first clicked state */
+			_this.first = null;
+
+			/* We use the in-memory pre-rendered record TD's as that the paginated */
+			for(var i = 0, len = settings.records.length; i < len; i++) {
+
+				var $tr = settings.records[i]['dynamictable-select-td'].parent();
+
+				_this.deselectByTr($tr);
+			}
+
+			_this.updateSelectCount();
+        };
+
+	    /* Deselect all rows */
+        this.deselectAll = function() {
+
+			/* Reset first clicked state */
+			_this.first = null;
+
+			/* We use the in-memory pre-rendered originalRecords TD's as that covers all records not just paginated records */
+			for(var i = 0, len = settings.originalRecords.length; i < len; i++) {
+
+				var $tr = settings.originalRecords[i]['dynamictable-select-td'].parent();
+
+				_this.deselectByTr($tr);
+			}
+
+			_this.updateSelectCount();
+        };
+
+        /* Deselect by a dynamictable-index */
+        this.deselectByIndex = function(index) {
+
+            obj.$elementTable.find(`tr[data-dynamictable-index="${index}"]`).each(function() {
+
+                $tr = $(this);
+
+				_this.deselectByTr($tr);
+            });
+
+			_this.updateSelectCount();
+        };
+
+	    /* Deselect by a table row element */
+        this.deselectByTr = function($tr) {
+
+			_this.unhighlightRow($tr);
+
+            $tr.find('.tb-check-box input').prop("checked", false);
+        };
+
+		/* Select by shift */
         this.shiftSelect = function(checkbox) {
  
             /* We need two check boxes checked */
@@ -1519,10 +1830,10 @@
                 return;
             }
 
-            /* Our starting box in select cannot be unchecked */
+            /* Our starting box in select cannot be unchecked, so set first to the last clicked row instead */
             if(_this.first.prop("checked") == false) {
                   
-                _this.first = null;
+                _this.first = checkbox;
                     
                 return; 
             }
@@ -1564,7 +1875,7 @@
                 firstIndex = temp;
             }
 
-           /* Select everything from the FIRST to the LAST checkbox */
+			/* Select everything from the FIRST to the LAST checkbox */
             obj.$elementTable.find('.tb-check-box input').each(function(index) {
 
                 var $tr = $(this).parent().parent().parent();
@@ -1577,7 +1888,9 @@
 	                _this.highlightRow($tr);
                 }
             });
-        }
+
+			_this.updateSelectCount();
+        };
 	};
 
 
@@ -1596,23 +1909,38 @@
 		        obj.$element.find("#context-menu").hide();
 		    }
 
+			_this.isVisible = false;
+
 		    return build;
 		};
 
 		this.init = function() {
 			
-		    $contextMenu = obj.$element.find("#context-menu");
+		    var $contextMenu = obj.$element.find("#context-menu");
 
 			/* Hide context menu when click elsewhere */
-			$('html').click(function() {
+			$('html').click(function(e) {
+
 			    $contextMenu.hide();
+
+				_this.isVisible = false;
 			});
 
 			/* Allow a context menu to appear when right click occurs. */
-			$(document).on('contextmenu', `#${settings.element} tbody td`, function(event) {
+			$(document).on('contextmenu', `#${settings.element.id} tbody td`, function(event) {
 
-                $td = this;
+                var $td = $(this);
 
+				if(settings.select) {
+					obj.$element.find("#select-menu").hide();
+					obj.$element.find("#per-page-menu").hide();
+				}
+
+                /* Give the matching in-memory row record for the selected cell */
+                var completeRecord = findObjectInArray(settings.records, {
+				    'dynamictable-index' : $td.parent().attr('data-dynamictable-index')
+			    });
+    
 			    $contextMenu.children().hide();
 
 			    $contextMenu.css({
@@ -1620,6 +1948,8 @@
 					left: event.pageX,
 					top: event.pageY
 				});
+
+				_this.isVisible = true;
 
                 /* Lets allow expanding column via right click */
 				$contextMenu.find('#context-menu-expand-column').show();
@@ -1633,7 +1963,7 @@
 
                     obj.settings.ctrlState = false;
 
-					$('#context-menu').hide();
+					$contextMenu.hide();
 				});
 
 				/* If we have a link then provide new tab option */
@@ -1672,17 +2002,33 @@
 					}
 				}
 
-				/* Get our cell of text */
-				var cellText = $(this).text();
+				/* Get our cell text */
+				var cellText = $td.text();
 
 				if(isNullOrWhiteSpace(cellText) == false) {
 
-				    $contextMenu.find('#context-menu-copy-cell').show();
-				    $contextMenu.find('#context-menu-copy-cell').off('click');
+				    $contextMenu.find('#context-menu-copy-text').show();
+				    $contextMenu.find('#context-menu-copy-text').off('click');
 
-				    $contextMenu.find('#context-menu-copy-cell').on('click', function () {
+				    $contextMenu.find('#context-menu-copy-text').on('click', function() {
 
 						toClipboard(cellText);
+
+						$('#context-menu').hide();
+					});
+				}
+
+				/* Get our cell value */
+				var cellValue = completeRecord[$td.attr('data-dynamictable-column')];
+
+				if(isNullOrWhiteSpace(cellValue) == false) {
+
+				    $contextMenu.find('#context-menu-copy-value').show();
+				    $contextMenu.find('#context-menu-copy-value').off('click');
+
+				    $contextMenu.find('#context-menu-copy-value').on('click', function() {
+
+						toClipboard(cellValue);
 
 						$('#context-menu').hide();
 					});
@@ -1708,8 +2054,11 @@
 					});
 				}
 
-				/* Get a column of text based off the selected cell */
-				var col = $(this).parent().children().index(this) + 1;
+				/* 
+                    Get a column of text based off the selected cell.
+                    We count col from 1 not 0, so give an offset of +1
+                */
+				var col = $td.parent().children().index(this) + 1;
 
 				var columns = [];
 
@@ -1734,7 +2083,6 @@
 			});
 		};
 	};
-
 
 
 	//-----------------------------------------------------------------
@@ -1771,7 +2119,9 @@
 
     	this.init = function() {
 
-    	    this.$select = obj.$element.find('#dynamictable-per-page');
+    	    var $perPage = obj.$element.find('#dynamictable-per-page');
+			var $perPageCount = obj.$element.find("#per-page-count");
+		    var $perPageMenu = obj.$element.find("#per-page-menu");
 
             if(isNullOrWhiteSpace(settings.perPageDefault)) {
                 perPageDefault = 10;
@@ -1782,19 +2132,52 @@
      		for(var i = 0, len = settings.perPageOptions.length; i < len; i++) {
 
         		var number = settings.perPageOptions[i];
-            	var selected = settings.perPage == number ? 'selected="selected"' : '';
 
-        		_this.$select.append('<option value="' + number + '" ' + selected + '>' + number + '</option>');
+				var $item = obj.$element.find('#per-page-menu-default').clone().removeAttr('id');
+
+				$item.html(number);
+
+				$perPageMenu.append($item);
       		}
 
-     		_this.$select.change(function() {
+			obj.$element.find('#per-page-menu-default').remove();
 
-     		    _this.set($(this).val());
+			$perPageCount.text($perPageMenu.find('li:first').text());
 
-				obj.$elementTable.find('.th-check-box input').prop('checked', false);
-				obj.$elementTable.find('.tb-check-box input').prop('checked', false);
+			/* Hide per page menu when click elsewhere */
+			$('html').click(function(e) {
 
-        		obj.process();
+				var $isMenu = $(e.target).closest('div').is('#dynamictable-per-page');
+
+				if($isMenu == false) {
+					$perPageMenu.hide();
+				}
+			});
+
+			obj.$element.on('click', '#dynamictable-per-page', function(event) {
+
+				$perPageMenu.children().show();
+
+				$perPageMenu.css({
+					display: "block",
+					left: event.pageX,
+					top: event.pageY
+				});
+
+				$perPageMenu.find('li').off('click');
+
+                $perPageMenu.find('li').on('click', function() {
+
+					var perPageCount = $(this).text();
+
+     		    	_this.set(perPageCount);
+
+					$perPageCount.text(perPageCount);
+
+					$perPageMenu.hide();
+
+ 					obj.process();
+				});
 			});
     	};
 
@@ -1872,6 +2255,7 @@
 					var breakIndex = $.inArray(i, breaks);
 					var nextBreak = breaks[breakIndex + 1];
 
+					/* Page Numbers */
 					if(breakIndex > 0 && i !== 1 && nextBreak && nextBreak > (i + 1)) {
 
 						var ellip = '<li><span class="dynamictable-page-break">&hellip;</span></li>';
@@ -1879,12 +2263,14 @@
 						li = breakIndex < 2 ? ellip + li : li + ellip;
 					}
 
+					/* Previous Button */
 					if(settings.paginationPrev && i === 1) {
 
 						var prevLi = obj.paginationLinks.buildLink(page - 1, settings.paginationPrev, pageLinkClass + ' ' + settings.paginationPrevClass, page === 1, disabledPageClass);
 						li = prevLi + li;
 					}
 
+					/* Next Button */
 					if(settings.paginationNext && i === pages) {
 
 						var nextLi = obj.paginationLinks.buildLink(page + 1, settings.paginationNext, pageLinkClass + ' ' + settings.paginationNextClass, page === pages, disabledPageClass);
@@ -1902,23 +2288,32 @@
 			$(document).undelegate(selector, 'click.dynamictable');
 
 			$(document).delegate(selector, 'click.dynamictable', function(e) {
+
 				$this = $(this);
-				$this.closest(settings.paginationClass).find('.' + activePageClass).removeClass(activePageClass);
+				$this.closest(settings.paginationClass).find(`.${activePageClass}`).removeClass(activePageClass);
 				$this.addClass(activePageClass);
+			
+				/* 
+				 * Lets update our PaginationPage object.
+				 *	Which will then be used by PaginationLinks update function on next table render.
+				 *	 Which will then call the PaginationLinks build function to recreate the links. 
+				 */
 				obj.paginationPage.set($this.data('dynamictable-page'));
+
 				obj.process();
+
 				e.preventDefault();
 			});
 
 			return pageLinks;
 		};
 
-		this.buildLink = function (page, label, linkClass, conditional, conditionalClass) {
+		this.buildLink = function(page, label, linkClass, conditional, conditionalClass) {
 
 		    var link = '<a data-dynamictable-page=' + page + ' class="' + linkClass;
 		    var li = '<li';
 
-		    if (conditional) {
+		    if(conditional) {
 		        link += ' ' + conditionalClass;
 		        li += ' class="' + conditionalClass + '"';
 		    }
@@ -1949,7 +2344,7 @@
 	//-----------------------------------------------------------------
 	// Create dynamictable plugin based on a defined object
 	//-----------------------------------------------------------------
-	$.fn['dynamictable'] = function(options) {
+	$.fn.dynamictable = function(options) {
 
 		return this.each(function() {
 

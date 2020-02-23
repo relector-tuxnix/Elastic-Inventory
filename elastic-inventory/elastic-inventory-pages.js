@@ -4,91 +4,38 @@ var $ = exports;
  * ELASTIC INVENTORY PAGES
  */
 
-$.apiGetTypes = {
-	uri: '/api/get-types',
+$.apiGetInventory = {
+	uri: '/api/get-inventory/{typeId}',
+	base: '/api/get-inventory',
+	controller: 'elastic-inventory/api.js',
+	flags: ['get', 'authorize'],
+	priority: 1,
+	label: 'Get Inventory By Type.'
+};
+
+$.apiGetInventoryTypes = {
+	uri: '/api/get-inventory-types',
 	controller: 'elastic-inventory/api.js',
 	flags: ['get'],
 	priority: 1,
-	label: 'Get Types.'
-}
+	label: 'Get Inventory Types.'
+};
 
-$.apiSearch = {
-	uri: '/api/search',
+$.apiGetInventoryTypeByKey = {
+	uri: '/api/get-inventory-type-by-key/{key}',
 	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
+	flags: ['get'],
 	priority: 1,
-	label: 'Search.'
+	label: 'Get Inventory Type By Label.'
 };
 
-$.apiGetPostsByTag = {
-	uri: '/api/get-posts-by-tag',
+$.apiGetInventorySchema = {
+	uri: '/api/get-inventory-schema/{typeId}',
+	base: '/api/get-inventory-schema',
 	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
-	label: 'API Get Posts By Tag.'
-};
-
-$.apiGetComments = {
-	uri: '/api/get-post-comments',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
-	label: 'API Get Post Comments.'
-};
-
-$.apiGetTags = {
-	uri: '/api/get-tags',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
-	label: 'API Get Tags.'
-};
-
-$.apiSavePost = {
-	uri: '/api/save-post',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post', 'authorize'],
-	label: 'API Save Post.'
-};
-
-$.apiImportPost = {
-	uri: '/api/import-post',
-	controller: 'elastic-inventory/api.js',
-	flags : ['+xhr', 'upload', 'post', 'authorize'],
-	length: 819200,
-	label: 'API Import Post.'
-};
-
-$.apiSaveComment = {
-	uri: '/api/save-comment',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
-	label: 'API Save Comment.'
-};
-
-$.apiVerifyComment = {
-	uri: '/api/verify-comment',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
-	label: 'API Verify Comment.'
-};
-
-$.apiSaveContact = {
-	uri: '/api/save-contact',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
-	label: 'API Save Contact.'
-};
-
-$.apiVerifyContact = {
-	uri: '/api/verify-contact',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post'],
-	label: 'API Verify Contact.'
-};
-
-$.apiDeletePost = {
-	uri: '/api/delete-post',
-	controller: 'elastic-inventory/api.js',
-	flags: ['post', 'authorize'],
-	label: 'API Delete Post.'
+	flags: ['get'],
+	priority: 1,
+	label: 'Get Inventory Schema.'
 };
 
 $.apiGetById = {
@@ -118,14 +65,29 @@ $.error = {
 
 $.home = {
 	uri: '/',
-	controller: 'elastic-inventory/home.js',
+	controller: 'elastic-inventory/inventory.js',
 	flags: ['get'],
 	priority: 1,
-	label: 'Home',
+	label: 'Inventory',
+	views: [],
+	above: [],
+	below: []
+};
+
+/* Shows all inventory categories on a single page */
+$.inventory = {
+	uri: '/Inventory',
+	controller: 'elastic-inventory/inventory.js',
+	flags: ['get'],
+	priority: 1,
+	label: 'Inventory',
 	views: [
+		{'navigationjs' : 'elastic-inventory/navigation.js'}, 
 		{'navigation' : 'elastic-inventory/navigation.html'}, 
-		{'homejs' : 'elastic-inventory/home.js'}, 
-		{'body' : 'elastic-inventory/home.html'}, 
+		{'inventoryjs' : 'elastic-inventory/inventory.js'}, 
+		{'ecmodals' : 'elastic-core/modals.html'},
+		{'modals' : 'elastic-inventory/modals.html'},
+		{'body' : 'elastic-inventory/inventory.html'}, 
 		{'defaultjs' : 'elastic-inventory/default.js'}, 
 		{'default' : 'elastic-inventory/default.html'}
 	],
@@ -133,90 +95,33 @@ $.home = {
 	below: []
 };
 
-$.homeByDate = {
-	uri: '/date/{fromDate}/{toDate}',
-	controller: 'elastic-inventory/home.js',
-	base: '/date',
-	label: 'Home',
-	views: [
-		{'homejs' : 'elastic-inventory/home.js'}, 
-		{'body' : 'elastic-inventory/home.html'}, 
-		{'defaultjs' : 'elastic-inventory/default.js'}, 
-		{'default' : 'elastic-inventory/default.html'}
-	],
+/* Shows a single inventory category on a page */
+$.inventoryByTypeKey = {
+	uri: '/Inventory/{key}',
+	controller: 'elastic-inventory/inventory.js',
 	flags: ['get'],
+	base: '/inventory',
+	label: 'Inventory',
+	views: [
+		{'navigationjs' : 'elastic-inventory/navigation.js'}, 
+		{'navigation' : 'elastic-inventory/navigation.html'}, 
+		{'inventoryjs' : 'elastic-inventory/inventory.js'}, 
+		{'ecmodals' : 'elastic-core/modals.html'},
+		{'modals' : 'elastic-inventory/modals.html'},
+		{'body' : 'elastic-inventory/inventory.html'}, 
+		{'defaultjs' : 'elastic-inventory/default.js'}, 
+		{'default' : 'elastic-inventory/default.html'}
+	],
 	above: [],
 	below: []
 };
 
-$.exportPost = {
-	uri: '/export-post/{uri}',
-	base: '/export-post',
-	controller: 'elastic-inventory/savePost.js',
-	flags: ['authorize', 'get'],
-	label: 'Export Post.'
-};
-
-$.newPost = {
-	uri: '/save-post',
-	controller: 'elastic-inventory/savePost.js',
-	label: 'Save Post',
-	views: [
-		{'savePostjs' : 'elastic-inventory/savePost.js'}, 
-		{'body' : 'elastic-inventory/savePost.html'}, 
-		{'defaultjs' : 'elastic-inventory/default.js'}, 
-		{'default' : 'elastic-inventory/default.html'}
-	],
-	flags: ['authorize', 'get'],
-	above: [],
-	below: []
-};
-
-$.updatePost = {
-	uri: '/save-post/{type}/{uri}',
-	controller: 'elastic-inventory/savePost.js',
-	base: '/save-post',
-	label: 'Save Post',
-	views: [
-		{'savePostjs' : 'elastic-inventory/savePost.js'}, 
-		{'body' : 'elastic-inventory/savePost.html'}, 
-		{'defaultjs' : 'elastic-inventory/default.js'}, 
-		{'default' : 'elastic-inventory/default.html'}
-
-	],
-	flags: ['authorize', 'get'],
-	above: [],
-	below: []
-};
-
-$.search = {
-	uri: '/search/{query}',
-	controller: 'elastic-inventory/search.js',
-	base: '/search',
-	label: 'Search',
-	views: [
-		{'homejs' : 'elastic-inventory/home.js'}, 
-		{'body' : 'elastic-inventory/home.html'}, 
-		{'defaultjs' : 'elastic-inventory/default.js'}, 
-		{'default' : 'elastic-inventory/default.html'}
-	],
-	flags: ['get'],
-	above: [],
-	below: []
-};
-
-$.tags = {
-	uri: '/tags/{tag}',
-	controller: 'elastic-inventory/search.js',
-	base: '/tags',
-	label: 'Tags Search',
-	views: [
-		{'homejs' : 'elastic-inventory/home.js'}, 
-		{'body' : 'elastic-inventory/home.html'}, 
-		{'defaultjs' : 'elastic-inventory/default.js'}, 
-		{'default' : 'elastic-inventory/default.html'}
-	],
-	flags: ['get'],
+/* Perform an Upsert on an inventory item */
+$.storeInventory = {
+	uri: '/Inventory/Store',
+	controller: 'elastic-inventory/api.js',
+	flag: ['authorize', 'post'],
+	label: 'Inventory Store',
 	above: [],
 	below: []
 };
@@ -227,7 +132,11 @@ $.getLogin = {
 	flags: ['get'],
 	label: 'Login',
 	views: [
+		{'loginjs' : 'elastic-inventory/login.js'},
+		{'ecmodals' : 'elastic-core/modals.html'},
+		{'modals' : 'elastic-inventory/modals.html'},
 		{'body' : 'elastic-inventory/login.html'},
+		{'defaultjs' : 'elastic-inventory/default.js'}, 
 		{'default' : 'elastic-inventory/default.html'}
 	],
 	above: [],
@@ -253,6 +162,9 @@ $.getRegister = {
 	flags: ['unauthorize'],
 	label: 'Register',
 	views: [
+		{'registerjs' : 'elastic-inventory/register.js'},
+		{'ecmodals' : 'elastic-core/modals.html'},
+		{'modals' : 'elastic-inventory/modals.html'},
 		{'body' : 'elastic-inventory/register.html'},
 		{'default' : 'elastic-inventory/default.html'}
 	],
@@ -263,7 +175,7 @@ $.getRegister = {
 $.apiGetFile = {
 	uri: '/api/get-file',
 	controller: 'elastic-inventory/api.js',
-	flags: ['post', 'authorize'],
+	flags: ['get', 'authorize'],
 	label: 'Get File'
 };
 
@@ -278,32 +190,9 @@ $.apiReturnFile = {
 	label: 'Return File',
 };
 
-$.viewInventory = {
-	uri: '/view/{type}',
-	base: '/view',
-	controller: 'elastic-inventory/view.js',
-	flags: ['get', 'authorize'],
-	label: 'View Inventory',
-	views: [
-		{'body' : 'elastic-inventory/view.html'},
-		{'default' : 'elastic-inventory/default.html'}
-	],
-	above: [],
-	below: []
-};
-
-
 /*
  * RELATIONSHIPS
  */
 
-$.home.below = [
-	$.search, 
-	$.newPost, 
-	$.updatePost
-];
-
-$.search.above = [$.home];
-$.newPost.above = [$.home];
-$.updatePost.above = [$.home];
+$.inventory.below = [];
 

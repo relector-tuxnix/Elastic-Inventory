@@ -26,148 +26,57 @@ F.once('load', function() {
 });
 
 
-$.EISavePost = function(data, callback) {
+$.EIGetFile = function(user, key, callback) {
 
-	var constraints = {
-		"_key": {
-			presence: {
-				allowEmpty: true
-			}
-		},
-		"_uri": {
-			presence: true,
-			format: {
-				pattern: "[aA-zZ0-9\-]+",
-				flags: "i",
-				message: "can only contain a-z, -, 0-9"
-			},
-	  		length: {
-				minimum: 5
-	  		}
-	  	},
-		"_content": {
-			presence: true,
-			length: {
-				minimum: 4
-			}
-		},	
-		"_tags": {
-			presence: {
-				allowEmpty: true
-			}
-		}
-	};
+	var query = `
+	  	SELECT 
+		  Store.[_id], 
+	 	  Store.[_user], 
+		  Store.[_creationDate],
+		  Store.[_data]
+		FROM
+		 Store
+		WHERE
+		 Store.[_type] = 'inventory-file' 
+		AND
+		 Store.[_user] = ?
+		AND 
+		 Store.[_id] = ?
+	`;
 
-	var failed = $.validate(data, constraints, {format: "flat"});
+	$.ECQueryJSON(query, [user, key], function(result) {
 
-	if(failed != undefined) {
-
-		callback({"success" : false, "message" : failed});
-
-		return;
-	}
-
-	var query;
-
-	if(data._key == "") {
-
-		query = [`_type = "post"`, `_uri = "${data._uri}"`];
-
-	} else {
-		
-		query = [`_key = "${data._key}"`];		
-	}
-
-	$.ECGet(query, 1, [], [], [], function(result) {
-
-		if(result.error == true) {
-
-			callback({"success" : false, "message" : "An unexpected error occured!"});
-			
-			return;
-		}
-
-		/* Existing document so do merge update */
-		if(result.success == true) {
-			
-			var post = result.message[0];
-
-			/* Can only update what you own */
-			if(post._user != data._user) {
-
-				callback({"success" : false, "message" : "The URI or KEY is already in use by another user!"});
-
-				return;
-			}
-
-			/* Make sure the provided and retrieved documents are the same */
-			data._key = post._key;
-
-			/* Add attributes that may not exist */
-			data._created = post._created;		
-
-			console.log("Updating post...");
-
-		} else {
-
-			/* Force a new document to be created */
-			data._key = "";
-
-			console.log("New post...");
-		}
-
-		$.ECStore(data._key, data, function(results) {
-			callback(results);
-		});
+		callback(result);
 	});
 };
 
 
-$.EIGetFile = function(user, key, callback) {
+$.EIGetInventoryTypeByKey = function(user, key, callback) {
 
-	var query = [`_type = "file"`, `_key = "${key}"`];
+	var query = `
+		SELECT DISTINCT 
+		  Store._id, 
+		  json_extract([value], '$.key') as key, 
+		  json_extract([value], '$.label') as label
+		FROM
+		 Store, json_each(Store.[_data])
+		WHERE
+		 Store.[_type] = 'inventory-type' 
+		AND 
+		 Store.[_user] = ?
+		AND
+		  json_extract([value], '$.key') = ?
+	`;
 
-	if(user == null || user == "") {
+	$.ECQuery(query, [user, key], function(result) {
 
-		query.push(`_public = "true"`);
-
-	} else {
-
-		query.push(`_user = "${user}"`);
-	}
-
-	//$.ECGet(query, 1, [], [], [], function(result) {
-
-	//	callback(result);
-	//});
+		callback(result);
+	});
 };
 
 
-$.EIStoreFile = function(user, totalSize, mime, filename, tags, allowPublic, callback) {
-	
-	var generateFile = function() {
-			
-		var body = {};
-		
-		body._key = cuid();
-		body._type = "file";
-		body._name = filename;
-		body._user = user;
-		body._public = allowPublic;
-		body._active = "false";
-		body._mime = mime;
-		body._size = totalSize;
-		body._success = 'Pending';
-		body._message = 'Waiting to start upload...';
-		body._tags = tags;
-		body._meta = {width: 0, height: 0};
-		body._created = new Date();
-		
-		$.ECStore(body._key, body, function(response) {
-		
-			console.log(response);
-		
-			callback(body);
-		});
-	};
-}
+$.EIStoreInventory = function(user, data, callback) {
+
+
+};
+

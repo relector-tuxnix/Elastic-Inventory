@@ -3,10 +3,20 @@
  * 	 https://github.com/alfajango/jquery-dynatable 
  */
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 table {
     border-collapse: separate !important;
     border-spacing: 0;
 	overflow-y: hidden;
+    border: 0;
+	width: 100%;
+}
+
+th, td {
+	padding: 0.3rem;
 }
 
 tbody td img {
@@ -23,7 +33,7 @@ tbody td {
 }
 
 tbody td a {
-  color: #3bafda; 
+	color: #3bafda; 
 }
 
 	tbody td a:hover, tbody td a:focus, tbody td a:active {
@@ -31,14 +41,18 @@ tbody td a {
 		text-decoration: none;
 	}
 
-th a {
-  color: #fff;
+th, tr {
+    border-top: 0 !important;
 }
 
-th a:hover {
-  color: #fff;
-  text-decoration: underline;
-}
+    th a {
+      color: #fff;
+    }
+
+        th a:hover {
+          color: #fff;
+          text-decoration: underline;
+        }
 
 .table-header {
     text-transform: uppercase;
@@ -70,30 +84,31 @@ th a:hover {
 	display: none;
 }
 
-    #context-menu {
-        position: absolute;
+   	.options-menu {
+        position: fixed;
         display: none;
         border: 1px solid black;
         list-style: none;
         background-color: #2d2d2f;
         margin: 0px;
         padding: 0px;
-        z-index: 9997;
+        z-index: 1;
         border-radius: 3px;
-        min-width: 130px;
+        width: auto;
         overflow: hidden;
         -moz-box-shadow: 0px 0px 2px #2d2d2f;
         -webkit-box-shadow: 0px 0px 2px #2d2d2f;
         box-shadow: 0px 0px 2px #2d2d2f;
     }
 
-        #context-menu li {
-            padding: 4px 10px 4px 10px;
+        .options-menu li {
+            padding: 4px 13px 4px 13px;
             display: none;
 			color: #fff;
+			text-align: left;
         }
 
-        #context-menu li:hover {
+        .options-menu li:hover {
             background-color: #272626;
         }
 
@@ -117,13 +132,15 @@ th a:hover {
         margin-right: 6px;
         order: 20;
         max-height: 40px;
+        line-height: 27px;
+		padding: 0.375rem 0.75rem;
     }
 
         .dynamic-table input[type="checkbox"] {
             margin: 0;
         }
 
-	.grid-scroll {
+	.dynamic-table .grid-scroll {
 		order: 99;
 		scrollbar-color: #1E1E1E #333333;
 		overflow-y: hidden;
@@ -131,36 +148,39 @@ th a:hover {
 		width: 100%;
 	}
 
-		.grid-scroll::-webkit-scrollbar {
+		.dynamic-table .grid-scroll::-webkit-scrollbar {
 			width: 12px;
 			height: 16px;
 		}
 
-			.grid-scroll::-webkit-scrollbar-track {
+			.dynamic-table .grid-scroll::-webkit-scrollbar-track {
 				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 				background-color: #333333;
 				border-radius: 10px;
 			}
 
-			.grid-scroll::-webkit-scrollbar-thumb {
+			.dynamic-table .grid-scroll::-webkit-scrollbar-thumb {
 				border-radius: 10px;
 				background-color: #1E1E1E;
 				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 			}
 
-    .grid {
+    .dynamic-table .grid {
     	margin-top: 10px;
         margin-bottom: 10px;
         white-space: nowrap;
-        border: none;
         background-color: #1E1E1E;
-        border: 1px solid black !important;
+        border: 1px solid black;
         border-radius: 6px;
     }
 
-        .grid td {
+		.dynamic-table a {
+			color: #fff;
+		}
+
+        .dynamic-table .grid td {
             vertical-align: middle;
-            max-width: 150px;
+            max-width: 400px;
             overflow-y: hidden;
             border: none;
             color: white;
@@ -169,50 +189,51 @@ th a:hover {
 			text-align: left;
         }
 
-            .grid th {
+            .dynamic-table .grid th {
                 background-color: #2b2a2c;
                 color: white !important;
 			    text-align: left;
+                background-color: #1e1e1e;
+                border-bottom: 1px solid #101010 !important;
+				padding-right: 10px;
             }
 
-                .grid .th-check-box, .grid .tb-check-box {
+                .dynamic-table .grid .th-check-box, .dynamic-table .grid .tb-check-box {
                     width: 45px;
                 }
-
-                .grid th, .grid tr {
-                    border: 0 !important;
-                    border-collapse: collapse;
-                }
-
-                    .grid th {
-                        border-bottom: 1px solid #161623 !important;
-                    }
-
+                
                 /* First child is empty message */
-                .grid th:nth-child(1) {
+                .dynamic-table .grid th:nth-child(1) {
                     text-align: center;
                 }
 
                 /* Second child is first header */
-                .grid th:nth-child(2) {
+                .dynamic-table .grid th:nth-child(2) {
                     padding-left: 10px;
                 }
                
-                .grid th:nth-last-child(1) {}
+                .dynamic-table .grid th:nth-last-child(1) {}
 
-                .grid th a, .grid th a:hover {
+                .dynamic-tale .grid th a, .grid th a:hover {
                     color: white;
                 }
 
-        .grid td {
+        .dynamic-table .grid td {
             border-collapse: collapse;
+            text-shadow: 1px 1px 1px #000;
+            border-bottom: 1px solid #191717;
         }
 
-            .grid td:first-child {
+            .dynamic-table .grid td:first-child {
                 padding-left: 10px;
+				display: none;
             }
 
-            .grid td:after {
+            .dynamic-table .grid tr:last-child td {
+                border-bottom: none !important;
+            }
+
+            .dynamic-table .grid td:after {
                 content: '';
                 position: absolute;
                 top: 0;
@@ -223,19 +244,19 @@ th a:hover {
                 pointer-events: none;
             }
 
-            .grid td.off:after {
+            .dynamic-table .grid td.off:after {
                 background-image: none;
             }
 
-            .grid td:first-child:after {
+            .dynamic-table .grid td:first-child:after {
                  background-image: none;
             }
 
-            .grid tr:hover {
+            .dynamic-table .grid tr:hover {
                 background-color: #252525;
             }
 
-            .grid tr:hover td:after {
+            .dynamic-table .grid tr:hover td:after {
                 background-image: none;
             }
 
@@ -245,13 +266,32 @@ th a:hover {
 
             .td-highlight {
                 background-color: #3888d0;
+                border-bottom: 1px solid #02335f !important;
             }
+
+                .dynamic-table .grid tr:last-child .td-highlight {
+                    border-bottom: none;
+                }
+
+                .dynamic-table .grid tr:last-child .td-highlight:first-child {
+                    border-radius: 0px 0px 0px 6px;
+                }
+
+                .dynamic-table .grid tr:last-child .td-highlight:last-child {
+                    border-radius: 0px 0px 6px 0px;
+                }
 
                 .td-highlight a {
                     color: #000;
+                    text-shadow: none;
                 }
+
+                    .td-highlight a:hover {
+                        color: #232323;
+                        text-shadow: none;
+                    }
             
-        .grid tbody+tbody {
+        .dynamic-table .grid tbody+tbody {
             border-top: none;
             padding: 2px 0px 2px 0px;
         }
@@ -260,12 +300,28 @@ th a:hover {
             border: 1px solid black;
         }
 
-         #dynamictable-per-page {
-            width: 60px;
+		#dynamictable-selector {
+			border-radius: 4px;
+			width: auto;
+			order: 0;
+		}
+			
+			#select-count {
+				margin-left: 5px;
+				display: none;
+			}		
+
+        #dynamictable-per-page {
+			border-radius: 4px;
+            width: auto;
             order: 1;
 			-webkit-appearance: none;
 			-moz-appearance: none;	
         }
+			
+			#per-page-count {
+				margin-left: 5px;
+			}		
 
         .filler-header {
             flex-grow: 1;
@@ -279,17 +335,22 @@ th a:hover {
         }
 
             #dynamictable-search-clear {
-                color: #fff;
-                position: relative;
-                top: -38px;
-                left: -7px;
-                cursor: pointer;
-                background-color: #2a2a2b;
-                padding: 11px;
-                border-radius: 0 5px 5px 0;
-            }
+				position: relative;
+				top: -38px;
+				right: -157px;
+				cursor: pointer;
+				background-color: #1e1e1e;
+				padding: 11px;
+				padding-top: 11px;
+				border-radius: 0 5px 5px 0;
+				width: 40px;
+				height: 37px;
+				padding-top: 9px;
+				color: #ffffff;
+			}
 
             #dynamictable-search {
+				border-radius: 4px;
                 width: 200px;
 			    height: 39px;
             }
@@ -315,11 +376,25 @@ th a:hover {
         #dynamictable-pagination-links {
             order: 102;
             margin: 0;
+			-webkit-touch-callout: none; /* iOS Safari */
+			-webkit-user-select: none; /* Safari */
+			-khtml-user-select: none; /* Konqueror HTML */
+			-moz-user-select: none; /* Old versions of Firefox */
+			-ms-user-select: none; /* Internet Explorer/Edge */
+			user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
         }
 
             #dynamictable-pagination-links span, #dynamictable-pagination-links li {
                 display: inline-block;
             }
+
+				#dynamictable-pagination-links li:first-child {
+					margin-right: 10px;
+				}
+
+				#dynamictable-pagination-links li:last-child {
+					margin-left: 10px;
+				}
 
                 .dynamictable-page-link, .dynamictable-page-break {
                     display: block;
@@ -330,8 +405,23 @@ th a:hover {
                     cursor: pointer;
                 }
 
-                .dynamictable-active-page, .dynamictable-disabled-page {
+					.dynamictable-page-link:active, 
+					.dynamictable-page-link:visited,
+					.dynamictable-page-link:hover {
+						color: #fff;
+					}
+
+                .dynamictable-active-page, 
+				.dynamictable-disabled-page, 
+				.dynamictable-page-next, 
+				.dynamictable-page-prev {
                     cursor: text;
+					background: #71AF5A;
+					border-radius: 5px;
+					color: #fff;
+					line-height: 27px;
+					max-height: 42px;
+					vertical-align: top;
                 }
 
                 .dynamictable-active-page:hover, .dynamictable-disabled-page:hover {
@@ -391,22 +481,22 @@ label {
     font-weight: 500;
 }
 
-.form-control {
+.dynamic-table .form-control {
     border: 1px solid #4c5a67;
-    background-color: #2a2a2b;
+    background-color: #1e1e1e;
     box-shadow: none;
     color: #ffffff;
     border: 1px solid #000;
 }
 
-.form-control:focus {
-    background: #2D2D30;
+.dynamic-table .form-control:focus {
+    background-color: #1e1e1e;
     border-color: #000;
     box-shadow: none;
     color: #ffffff;
 }
 
-.form-control:disabled, .form-control[readonly] {
+.dynamic-table .form-control:disabled, .dynamic-table .form-control[readonly] {
     background-color: #576676; 
 }
 
@@ -423,7 +513,6 @@ label {
         position: relative;
         font-weight: 500;
         font-size: 13px; 
-        z-index: 9999;
     }
 
         .checkbox label::before {
@@ -492,7 +581,7 @@ label {
         cursor: not-allowed; 
     }
 
-.btn {
+.dynamic-table .btn {
     border: none;
     font-weight: normal;
     border-radius: 4px;
@@ -505,7 +594,11 @@ label {
 	max-height: 40px;
 }
 
-    .btn:hover, .btn:focus,.btn:active, .btn:hover:active, .btn:focus:active {
+    .dynamic-table .btn:hover, 
+	.dynamic-table .btn:focus, 
+	.dynamic-table .btn:active, 
+	.dynamic-table .btn:hover:active, 
+	.dynamic-table .btn:focus:active {
         outline: none;
         color: #ffffff;
         outline: none;
@@ -513,180 +606,209 @@ label {
         border-color: black;
     }
 
-    .btn-default {
+    .dynamic-table .btn-default {
         color: #ffffff;
         background-color: #2D2D30;
     }
 
-        .btn-default:hover,
-        .btn-default.hover,
-        .btn-default:focus,
-        .btn-default:active,
-        .btn-default.active,
-        .open > .dropdown-toggle.btn-default {
+        .dynamic-table .btn-default:hover,
+        .dynamic-table .btn-default.hover,
+        .dynamic-table .btn-default:focus,
+        .dynamic-table .btn-default:active,
+        .dynamic-table .btn-default.active,
+        .dynamic-table .open > .dropdown-toggle.btn-default {
             color: #ffffff;
             background-color: #1E1E1E;
         }
 
-    .btn-primary {
+    .dynamic-table .btn-primary {
         color: #ffffff;
         background-color: #3498db;
     }
 
-        .btn-primary:hover,
-        .btn-primary.hover,
-        .btn-primary:focus,
-        .btn-primary:active,
-        .btn-primary.active,
-        .open > .dropdown-toggle.btn-primary {
+        .dynamic-table .btn-primary:hover,
+        .dynamic-table .btn-primary.hover,
+        .dynamic-table .btn-primary:focus,
+        .dynamic-table .btn-primary:active,
+        .dynamic-table .btn-primary.active,
+        .dynamic-table .open > .dropdown-toggle.btn-primary {
             color: #ffffff;
             background-color: #5dade2;
         }
 
-    .btn-info {
+    .dynamic-table .btn-info {
         color: #ffffff;
         background-color: #1abc9c;
     }
 
-        .btn-info:hover,
-        .btn-info.hover,
-        .btn-info:focus,
-        .btn-info:active,
-        .btn-info.active,
-        .open > .dropdown-toggle.btn-info  {
+        .dynamic-table .btn-info:hover,
+        .dynamic-table .btn-info.hover,
+        .dynamic-table .btn-info:focus,
+        .dynamic-table .btn-info:active,
+        .dynamic-table .btn-info.active,
+        .dynamic-table .open > .dropdown-toggle.btn-info  {
             color: #ffffff;
             background-color: #48c9b0;
             border-color: #48c9b0;
         }
 
-    .btn-danger {
+    .dynamic-table .btn-danger {
         color: #ffffff;
         background-color: #e74c3c;
     }
 
-        .btn-danger:hover,
-        .btn-danger.hover,
-        .btn-danger:focus,
-        .btn-danger:active,
-        .btn-danger.active,
-        .open > .dropdown-toggle.btn-danger {
+        .dynamic-table .btn-danger:hover,
+        .dynamic-table .btn-danger.hover,
+        .dynamic-table .btn-danger:focus,
+        .dynamic-table .btn-danger:active,
+        .dynamic-table .btn-danger.active,
+        .dynamic-table .open > .dropdown-toggle.btn-danger {
             color: #ffffff;
             background-color: #ec7063;
             border-color: #ec7063;
         }
 
-    .btn-success {
+    .dynamic-table .btn-success {
         color: #ffffff;
         background-color: #2ecc71;
     }
 
-        .btn-success:hover,
-        .btn-success.hover,
-        .btn-success:focus,
-        .btn-success:active,
-        .btn-success.active,
-        .open > .dropdown-toggle.btn-success {
+        .dynamic-table .btn-success:hover,
+        .dynamic-table .btn-success.hover,
+        .dynamic-table .btn-success:focus,
+        .dynamic-table .btn-success:active,
+        .dynamic-table .btn-success.active,
+        .dynamic-table .open > .dropdown-toggle.btn-success {
             color: #ffffff;
             background-color: #58d68d;
         }
 
-    .btn-warning {
+    .dynamic-table .btn-warning {
         color: #ffffff;
         background-color: #f1c40f;
     }
 
-        .btn-warning:hover,
-        .btn-warning.hover,
-        .btn-warning:focus,
-        .btn-warning:active,
-        .btn-warning.active,
-        .open > .dropdown-toggle.btn-warning {
+        .dynamic-table .btn-warning:hover,
+        .dynamic-table .btn-warning.hover,
+        .dynamic-table .btn-warning:focus,
+        .dynamic-table .btn-warning:active,
+        .dynamic-table .btn-warning.active,
+        .dynamic-table .open > .dropdown-toggle.btn-warning {
             color: #ffffff;
             background-color: #f4d313;
             border-color: #f4d313;
         }
 
-    .btn-outline-warning {
+    .dynamic-table .btn-outline-warning {
         color: #f4d313;
         border-color: #f4d313;
     }
 
-        .btn-outline-warning:focus {
+        .dynamic-table .btn-outline-warning:focus {
             color: #f4d313;
             border-color: #f4d313;
         }
 
-        .btn-outline-warning:hover,
-        .btn-outline-warning.hover {
+        .dynamic-table .btn-outline-warning:hover,
+        .dynamic-table .btn-outline-warning.hover {
             color: #000;
         }
 
-        .btn-outline-warning:active,
-        .btn-outline-warning.active,
-        .open > .dropdown-toggle.btn-outline-warning {
+        .dynamic-table .btn-outline-warning:active,
+        .dynamic-table .btn-outline-warning.active,
+        .dynamic-table .open > .dropdown-toggle.btn-outline-warning {
             color: #f4d313;
             border-color: #f4d313;
         }
 
-    .btn-outline-danger {
+    .dynamic-table .btn-outline-danger {
         color: #ef5350;
         border-color: #ef5350;
     }
 
-    .btn-outline-primary {
+    .dynamic-table .btn-outline-primary {
         color: #3bafda;
         border-color: #3bafda;
     }
 
-    .btn-outline-secondary {
+    .dynamic-table .btn-outline-secondary {
         color: #6c757d;
         background-color: transparent;
         background-image: none;
         border-color: #6c757d;
     }
 
-    .btn-outline-success {
+    .dynamic-table .btn-outline-success {
         color: #00b19d;
         border-color: #00b19d;
     }
 
-    .btn-outline-info {
+    .dynamic-table .btn-outline-info {
         color: #3ddcf7;
         border-color: #3ddcf7;
     }
 
-    .btn-outline-light {
+    .dynamic-table .btn-outline-light {
         color: #f8f9fa;
         background-color: transparent;
         background-image: none;
         border-color: #f8f9fa;
     }
 
-        .btn-outline-light:hover {
+        .dynamic-table .btn-outline-light:hover {
             color: #000;
         }
 
-    .btn-purple {
+    .dynamic-table .btn-purple {
         color: #ffffff;
         border-color: #7266ba;
         background-color: #7266ba;
     }
 
-        .btn-purple:hover {
+        .dynamic-table .btn-purple:hover {
             background-color: #61589c;
             border-color: #61589c;
             color:#ffffff;
         }
 
-    .btn-outline-purple {
+    .dynamic-table .btn-outline-purple {
         color: #7266ba;
         border-color: #7266ba;
         background-color: inherit;
     }
 
-        .btn-outline-purple:hover {
+        .dynamic-table .btn-outline-purple:hover {
             background-color: #7266ba;
             border-color: #7266ba;
             color:#ffffff;
         }
+
+.table-logo {
+    display: inline-block;
+    text-align: center;
+    height: 38px;
+    width: 48px;
+}
+
+.table-logo > img {
+    height: 100%;
+}
+
+.black-back-text {
+    border: 1px solid black;
+    padding-right: 8px;
+    display: inline-block;
+    padding-left: 8px;
+    border-radius: 3px;
+    box-shadow: inset 0px 0px 1px 0px #0a0a0a;
+    background-color: #171717;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-shadow: unset;
+}
+
+    .td-highlight a.black-back-text {
+        color: #3bafda;
+    }
+
 

@@ -1,0 +1,40 @@
+.navbar-brand {
+	background-color: #171515 !important;
+}
+
+	.navbar-brand img {
+		width: auto !important;
+	}
+
+.ui.fixed.menu {
+	border-bottom: 1px solid #000;
+	background-color: #2b2b2b;
+}
+
+	.ui.inverted.menu .item:before {
+		background: unset;
+	}
+
+.ui.inverted.menu .dropdown.item:hover, 
+.ui.inverted.menu .link.item:hover, 
+.ui.inverted.menu a.item:hover, 
+.ui.link.inverted.menu .item:hover {
+	background: unset;
+}
+
+.ui.menu .dropdown.item .menu {
+	background-color: #1b1c1d;
+	border: 1px solid #000;
+}
+
+	.ui.menu .ui.dropdown .menu>.item {
+		color: #fff !important;
+	}
+
+		.ui.menu .ui.dropdown .menu>.item:hover {
+			color: #54c8ff !important;	
+		}
+
+.ui.inverted.icon.input input {}
+
+

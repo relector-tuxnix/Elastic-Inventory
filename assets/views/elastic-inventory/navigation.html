@@ -1,1 +1,42 @@
+<script type="text/javascript">
+	{{{navigationjs}}}
+</script>
+
+<link rel="stylesheet" href="/styles/elastic-inventory/Navigation.css">
+
+<nav class="ui fixed inverted menu">
+	<div class="ui container fluid">
+		<div class="ui item navbar-brand">
+			<img src="/images/elastic-inventory/logo.png" width="35" height="35"/>
+		</div>
+		<a class="ui item" href="{{{pages.home.uri}}}">Home</a>
+		<div class="ui simple dropdown item">
+			Inventory
+			<div id="inventory-menu" class="menu">
+				<a id="inventory-menu-item" class="item" href="#">&nbsp;</a>
+			</div>
+		</div>
+		<div class="ui simple dropdown item">
+			Administration
+			<div id="inventory-menu" class="menu">
+				<a class="item" href="#">Inventory</a>
+				<a class="item" href="#">Users</a>
+			</div>
+		</div>
+		<div class="ui simple dropdown item">
+			<i class="user icon"></i>
+			<div id="inventory-menu" class="menu">
+				<a class="item" href="{{{pages.logout.uri}}}">Logout</a>
+			</div>
+		</div>
+		<div class="right menu">
+			<div class="item">
+				<div class="ui inverted icon input">
+					<i class="search icon"></i>
+					<input type="text" placeholder="Search" class="black-form-control">
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>
 

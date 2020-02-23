@@ -1,21 +1,40 @@
-<link rel="stylesheet" href="/styles/elastic-inventory/Authentication.css">
+<script type="text/javascript">
+	{{{loginjs}}}
+</script>
 
-<div id="login-message">
-	<p>{{message}}</p>
+<link rel="stylesheet" href="/styles/elastic-inventory/Login.css">
+
+<div class="ui middle aligned center aligned grid">
+	<div class="column">
+		<div class="ui content center">
+			<img src="images/elastic-inventory/logo.png" width="150" height="150"/>
+		</div>
+		<h1 class="ui image header center banner-text">
+			{{{locale "login-title"}}}
+		</h1>
+		<div id="login-message-list" class="message-list">
+			<div class="ui red message default-item">&nbsp;</div>
+		</div>
+		<form class="ui large form">
+			<div class="ui segment ei-colored">
+				<div class="field">
+					<div class="ui left icon input">
+						<i class="user icon"></i>
+						<input type="text" class="black-form-control" id="email" name="email" placeholder="E-mail address">
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui left icon input">
+						<i class="lock icon"></i>
+						<input type="password" class="black-form-control" id="password" name="password" placeholder="Password">
+					</div>
+				</div>
+				<div id="login-submit-button" class="ui fluid medium blue submit button">{{{locale "login-button"}}}</div>
+			</div>
+		</form>
+		<div class="ui message">
+			<a href="{{{pages.getRegister.uri}}}">Need an account?</a>
+		</div>
+	</div>
 </div>
-
-<form method="post" action="{{pages.postLogin.uri}}" class="form-signin">
-
-	<h1 class="h3 mb-3 font-weight-normal">{{{locale "site-title"}}}</h1>
-
-	<label for="email" class="sr-only">Email</label>
-	<input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
-	<label for="password" class="sr-only">Password</label>
-	<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-
-	<button class="btn btn-lg btn-primary btn-block" type="submit">{{{locale "login-button"}}}</button>
-
-	<p class="mt-5 mb-3 text-muted">{{{locale "site-footer"}}}</p>
-
-</form>
 

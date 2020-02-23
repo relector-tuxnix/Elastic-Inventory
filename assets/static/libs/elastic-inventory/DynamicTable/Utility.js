@@ -51,6 +51,11 @@ function validateIP(address) {
         }
     }
 
+    if (/(^i\-)[0-9a-zA-Z]*?$/.test(address)) {
+        // It's an AWS instance ID
+        return 401;
+    }
+
     if(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(address)) {
         // It's a GUID
         return 101;
@@ -75,9 +80,8 @@ function validateIP(address) {
 
 function isUrlValid(url) {
 
-    return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@@)|\/|\?)*)?$/i.test(url);
+    return /^((https?|ftp):\/\/)?(([^:\n\r]+):([^@\n\r]+)@)?((www\.)?([^/\n\r]+))\/?([^?\n\r]+)?\??([^#\n\r]*)?#?([^\n\r]*)/i.test(url);
 }
-
 
 String.prototype.capitalize = function(string) {
 
@@ -214,15 +218,18 @@ function allMatch(item, arrayOrObject, test) {
     var isArray = $.isArray(arrayOrObject);
 
     // Loop through all items in array
-    $.each(arrayOrObject, function (key, value) {
+    $.each(arrayOrObject, function(key, value) {
 
         var result = isArray ? test(item, value) : test(item, key, value);
+
         // If a single item tests false, go ahead and break the array by returning false
         // and return false as result,
         // otherwise, continue with next iteration in loop
         // (if we make it through all iterations without overriding match with false,
         // then we can return the true result we started with by default)
-        if (!result) { return match = false; }
+        if(!result) { 
+			return match = false; 
+		}
     });
 
     return match;
@@ -235,7 +242,7 @@ function allMatch(item, arrayOrObject, test) {
  */
 function findObjectInArray(array, objectAttr) {
 
-    /* We want our foudn item to be the last item in the array, so we dont break on first find */
+    /* We want our found item to be the last item in the array, so we dont break on first find */
     var foundObject = null;
 
     for(var i = 0, len = array.length; i < len; i++) {
@@ -249,6 +256,28 @@ function findObjectInArray(array, objectAttr) {
     }
 
     return foundObject;
+}
+
+
+/* 
+ * Find all objects in an array of objects by attributes.
+ * E.g. find object with {id: 'hi', name: 'there'} in an array of objects
+ */
+function findObjectsInArray(array, objectAttr) {
+
+    var foundObjects = [];
+
+    for(var i = 0, len = array.length; i < len; i++) {
+
+        var item = array[i];
+
+        // For each object in array, test to make sure all attributes in objectAttr match
+        if(allMatch(item, objectAttr, function(item, key, value) { return item[key] == value; })) {
+            foundObjects.push(item);
+        }
+    }
+
+    return foundObjects;
 }
 
 
@@ -345,5 +374,14 @@ function clone(obj1) {
 }
 
 
+/*
+ * Sort a collection of DIV's by attribute 'data-sort'
+ */
+$.fn.sortDivs = function sortDivs() {
+
+    $(this).children().sort(function(a, b) {
+		return ($(b).data("sort")) < ($(a).data("sort")) ? 1 : -1; 
+	}).appendTo(this);
+};
 
 
