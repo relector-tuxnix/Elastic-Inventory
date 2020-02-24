@@ -112,8 +112,7 @@
 						<thead>
 							<tr>
 							    <th id="empty-message" data-dynamictable-no-sort="true">No results found.</th>
-
-								<th id="th-default" scope="col"></th>
+                                <th id="th-default" scope="col"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -521,7 +520,7 @@
 
 			if(id == 'dynamictable-select') {
 
-				$column = obj.$defaultElement.find('#th-default-checkbox').clone();
+				$column = obj.$defaultElement.find('#th-default').clone();
 
 				$column.removeAttr('id').attr('data-dynamictable-column', id).addClass('dynamictable-head');
 
@@ -717,49 +716,58 @@
 						$td.find('input').attr('id', `${settings.element.id}-checkbox-${uniqueId}`);
 						$td.find('label').attr('for', `${settings.element.id}-checkbox-${uniqueId}`);
 
+						$td.addClass("td-select off");
+
+					    /* Tell the cell which column it belongs too for easier lookups */
+						$td.attr('data-dynamictable-column', column.label);
+
+					    /* We now have our text after rendering used for search and sorting */
+						record[`${key}-rendered`] = "";
+
+					    /* We now have our TD to the official record..updates can occur later and be referenced here */
+						record[`${key}-td`] = $td;
+
 						/* We have a custom cell renderer for select boxes */
 						var custom = findObjectInArray(settings.cells, {column: key});
 
+					    /* The last step is doing our custom render */
 						if(custom) {
 							custom.render(settings, null, record, $td);
 						}
-						
-						$td.addClass("td-select off");
-	
-						record[`${key}-rendered`] = "";
 
 					} else {
 
 						$td = obj.$defaultElement.find('#tb-default').clone().removeAttr('id');
 
-						/* If we have a wild card cell renderer then look for a specific renderer for the given column */
-						var custom = findObjectInArray(settings.cells, {column: key});
+					    /* Tell the cell which column it belongs too for easier lookups */
+						$td.attr('data-dynamictable-column', column.label);
 
-						/* Otherwise, do we have a custom cell renderer for all cells '*' */
-						if(isNull(custom)) {
-							custom = findObjectInArray(settings.cells, {column: '*'});
+					    /* Do we have a column that is disabled expand specified */
+						if(settings.disableExpand.indexOf(key) > -1) {
+						    $td.addClass("td-select off");
 						}
 
+					    /* We now have our text after rendering used for search and sorting */
+						record[`${key}-rendered`] = $td.text();
+
+					    /* We now have our TD to the official record..updates can occur later and be referenced here */
+						record[`${key}-td`] = $td;
+
+					    /* If we have a wild card cell renderer then look for a specific renderer for the given column */
+						var custom = findObjectInArray(settings.cells, { column: key });
+
+					    /* Otherwise, do we have a custom cell renderer for all cells '*' */
+						if(isNull(custom)) {
+						    custom = findObjectInArray(settings.cells, { column: '*' });
+						}
+
+                        /* The last step is doing our custom render */
 						if(custom) {
 							custom.render(settings, column, record, $td);
 						} else {
 							$td.text(record[key]);
 						}
-
-						/* Do we have a column that is disabled expand specified */
-						if(settings.disableExpand.indexOf(key) > -1) {
-							$td.addClass("td-select off");
-						}
-
-                    	/* We now have our text after rendering used for search and sorting */
-                    	record[`${key}-rendered`] = $td.text();
 					}
-
-                    /* Tell the cell which column it belongs too for easier lookups */
-                    $td.attr('data-dynamictable-column', column.label);
-			
-                    /* We now have our pre-rendered TD */
-                    record[`${key}-td`] = $td;
 
 					$tr.append($td);
                 }

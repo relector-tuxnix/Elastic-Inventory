@@ -23,7 +23,7 @@ $.inventory = function() {
 	} else { 
 
 		common.model = {};
-		common.model.typeId = "ck6bwxrlg0002gszq2i0wb0h1";
+		common.model.typeId = "ck6yu07l7000256zqgn7g4ldp";
 		common.model.typeKey = "gemstones";
 		common.model.typeLabel = "Gemstones";
 		
